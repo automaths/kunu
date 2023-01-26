@@ -7,7 +7,7 @@ import {Dimensions} from 'react-native';
 import Received from "./Received";
 import Sent from "./Sent";
 
-const Nudes = () => {
+const Nudeszer = () => {
     const [toggling, setToggling] = useState(true);
 
     const toggleReceived = () => {
@@ -21,7 +21,7 @@ const Nudes = () => {
     return (
         <View style={styles.base}>
             <View style={styles.gallerie}>
-                <Received />
+                <Sent />
             </View>
         </View>
     );
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Nudes;
+export default Nudeszer;

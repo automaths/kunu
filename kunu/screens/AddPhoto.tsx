@@ -36,7 +36,7 @@ const AddPhoto = () => {
                         mode={toggling === false ? "flat" : ""}
                         onPress={toggleSent}
                     >
-                        Gallery 
+                        Gallery
                     </Button>
                 </View>
             </View>

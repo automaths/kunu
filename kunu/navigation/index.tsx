@@ -17,7 +17,11 @@ import IconButton from "../components/UI/IconButton";
 import Nudes from "../screens/Nudes";
 import Adding from "../screens/Adding";
 import Settings from "../screens/Settings";
-import Home from "../screens/SearchBar";
+import SearchBar from "../screens/SearchBar";
+import ShowFriends from "../screens/ShowFriends";
+import AddFriends from "../screens/AddFriend";
+import Nudeszer from "../screens/Nudeszer";
+import AddPhoto from '../screens/AddPhoto';
 
 export default function Navigation({
     colorScheme,
@@ -44,29 +48,31 @@ function RootNavigator() {
                 component={BottomTabNavigator}
                 options={{ headerShown: false }}
             />
+
             <Stack.Screen
-                name="AnotherRoot"
-                component={AnotherBottomTabNavigator}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name="ManageExpense"
+                name="Settings"
                 component={Settings}
                 options={{
-                    // title: "Profile",
+                    title: "",
                 }}
             />
             <Stack.Screen
-                name="AddFriend"
-                component={Adding}
+                name="AddFriends"
+                component={AddFriends}
                 options={{
-                    title: "Add",
-                    presentation: "modal",
+                    title: "",
                 }}
             />
-            <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen
+                name="ShowFriends"
+                component={ShowFriends}
+                options={{
+                    title: "",
+                }}
+            />
+            {/* <Stack.Group screenOptions={{ presentation: "modal" }}>
                 <Stack.Screen name="Modal" component={ModalScreen} />
-            </Stack.Group>
+            </Stack.Group> */}
         </Stack.Navigator>
     );
 }
@@ -80,41 +86,49 @@ const defaultHandler = () => {
 function BottomTabNavigator() {
     const colorScheme = useColorScheme();
 
+    const socialRoutes = ["Social", ];
+    const photoRoutes = ["Photo", ]
+
+    const [check, setCheck] = React.useState('AddFriends');
+    const [checkzer, setCheckzer] = React.useState(true);
+
     return (
         <BottomTabs.Navigator
-            screenOptions={({ navigation }) => ({
+            screenOptions={({ navigation, route }) => ({
                 headerStyle: {
-                    backgroundColor: GlobalStyles.colors.primary500,
+                    backgroundColor: GlobalStyles.colors.primary200,
                 },
                 headerTintColor: "white",
                 tabBarStyle: {
-                    backgroundColor: GlobalStyles.colors.primary500,
+                    backgroundColor: GlobalStyles.colors.primary200,
                 },
-                tabBarActiveTintColor: GlobalStyles.colors.accent500,
+                tabBarActiveTintColor: "white",
                 headerRight: ({ tintColor }) => (
                     <View style={{flexDirection: 'row'}}>
                         <IconButton
-                            icon="person-add"
+                            icon={socialRoutes.includes(route.name) ? 'person-add' : 'share'}
                             size={28}
                             color={tintColor}
                             onPress={() => {
-                            navigation.navigate("ManageExpense");
+                                setCheck('AddFriends');
+                                setCheckzer(false);
                             }}
                         />
                         <IconButton
-                            icon="people"
+                            icon={socialRoutes.includes(route.name) ? 'people' : 'copy'}
                             size={28}
                             color={tintColor}
                             onPress={() => {
-                            navigation.navigate("ManageExpense");
+                                setCheck('ShowFriends');
+                                setCheckzer(false);
                             }}
                         />
                         <IconButton
-                            icon="settings"
+                            icon={socialRoutes.includes(route.name) ? 'settings' : 'add-circle'}
                             size={28}
                             color={tintColor}
                             onPress={() => {
-                            navigation.navigate("ManageExpense");
+                                socialRoutes.includes(route.name) ? navigation.navigate("Settings") : setCheckzer(true);
                             }}
                         />
                     </View>
@@ -127,27 +141,21 @@ function BottomTabNavigator() {
             })}
         >
             <BottomTabs.Screen
-                name="RecentExpenses"
-                component={Home}
+                name="Social"
+                component={check === "AddFriends" ? AddFriends : ShowFriends}
                 options={{
-                    title: "",
-                    //   tabBarLabel: '',
+                    title: '',
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="lock-open" size={size} color={color} />
                     ),
                 }}
-                listeners={{
-                    tabPress: e => {
-                      console.log("ouech");
-                    },
-                  }}
             />
             <BottomTabs.Screen
-                name="AllExpenses"
-                component={Nudes}
+                name="Photos"
+                // component={check === "AddFriends" ? Nudes : checkzer ? AddFriends : Nudeszer}
+                component={checkzer ? AddPhoto : check === "AddFriends" ? Nudes : Nudeszer}
                 options={{
-                    title: "",
-                    //   tabBarLabel: '',
+                    title: '',
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="camera" size={size} color={color} />
                     ),
@@ -157,84 +165,6 @@ function BottomTabNavigator() {
     );
 }
 
-function AnotherBottomTabNavigator() {
-    const colorScheme = useColorScheme();
-
-    return (
-        <BottomTabs.Navigator
-            screenOptions={({ navigation }) => ({
-                headerStyle: {
-                    backgroundColor: GlobalStyles.colors.primary500,
-                },
-                headerTintColor: "white",
-                tabBarStyle: {
-                    backgroundColor: GlobalStyles.colors.primary500,
-                },
-                tabBarActiveTintColor: GlobalStyles.colors.accent500,
-                headerRight: ({ tintColor }) => (
-                    <View style={{flexDirection: 'row'}}>
-                        <IconButton
-                            icon="people"
-                            size={28}
-                            color={tintColor}
-                            onPress={() => {
-                            navigation.navigate("ManageExpense");
-                            }}
-                        />
-                        <IconButton
-                            icon="people"
-                            size={28}
-                            color={tintColor}
-                            onPress={() => {
-                            navigation.navigate("ManageExpense");
-                            }}
-                        />
-                        <IconButton
-                            icon="people"
-                            size={28}
-                            color={tintColor}
-                            onPress={() => {
-                            navigation.navigate("ManageExpense");
-                            }}
-                        />
-                    </View>
-                ),
-                headerLeft: ({ tintColor }) => (
-                    <View style={{marginLeft: 15,}}>
-                        <Text style={human.largeTitleWhiteObject}>Kunu</Text>
-                    </View>
-                ),
-            })}
-        >
-            <BottomTabs.Screen
-                name="RecentExpenses"
-                component={Home}
-                options={{
-                    title: "",
-                    //   tabBarLabel: '',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="lock-open" size={size} color={color} />
-                    ),
-                }}
-            />
-            <BottomTabs.Screen
-                name="AllExpenses"
-                component={Nudes}
-                options={{
-                    title: "",
-                    //   tabBarLabel: '',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="camera" size={size} color={color} />
-                    ),
-                }}
-            />
-        </BottomTabs.Navigator>
-    );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
     color: string;

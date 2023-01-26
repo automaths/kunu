@@ -4,12 +4,12 @@ import Button from "../components/UI/Button";
 import { GlobalStyles } from "../constants/Styles";
 import { FlatList, StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
-import IncomingPhotos from "./IncomingPhotos";
+import IncomingPhotosZer from "./IncomingPhotosZer";
 
 const Sent = () => {
     return (
         <View style={styles.base}>
-            <IncomingPhotos />
+            <IncomingPhotosZer />
         </View>
     );
 };
