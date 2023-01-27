@@ -2,14 +2,13 @@ import { FlatList } from 'react-native';
 import CategoryGridTile from '../components/CategoryGridTile';
 import { CATEGORIESZER } from '../data/dummy-data';
 
-// import { CATEGORIES } from '../data/dummy-data.tsx';
-
-function IncomingPhotos(props:any) {
+function IncomingPhotoszer(props:any) {
   function renderCategoryItem(itemData:any) {
     function pressHandler() {
-      props.navigation.navigate('MealsOverview', {
-        categoryId: itemData.item.id,
-      });
+        console.log(props);
+    //   props.navigation.navigate('PhotoDetails', {
+    //     categoryId: itemData.item.id,
+    //   });
     }
 
     return (
@@ -31,4 +30,4 @@ function IncomingPhotos(props:any) {
   );
 }
 
-export default IncomingPhotos;
+export default IncomingPhotoszer;

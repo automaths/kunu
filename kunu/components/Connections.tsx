@@ -46,14 +46,6 @@ const Connections = () => {
         <>
             <View style={styles.containers}>
                 <View style={styles.containers}>
-                    {/* <Text>Coucou c'est les incoming photos</Text> */}
-                    <IncomingPhotos />
-                </View>
-                <View style={styles.containers}>
-                    <View style={styles.category}>
-                        <Text>Customize</Text>
-                    </View>
-                    {/* <Text>Coucou c'est mes amis</Text> */}
                     <FlatList
                         data={REQUESTS}
                         renderItem={renderRequests}

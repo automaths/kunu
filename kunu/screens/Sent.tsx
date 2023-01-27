@@ -17,9 +17,6 @@ const Sent = () => {
 const styles = StyleSheet.create({
     base: {
         flex: 1,
-        justifyContent: "center",
-        margin: 15,
-        borderRadius: 15,
     },
 });
 

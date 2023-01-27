@@ -12,9 +12,9 @@ function CategoryGridTile(props:any) {
           pressed ? styles.buttonPressed : null,
         ]}
         onPress={props.onPress}
+        onLongPress={props.onLongPress}
       >
         <View style={[styles.innerContainer, { backgroundColor: props.color }]}>
-          {/* <Text style={styles.title}>{props.title}</Text> */}
         </View>
       </Pressable>
     </View>
@@ -48,8 +48,6 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
-    // padding: 16,
-    // borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },

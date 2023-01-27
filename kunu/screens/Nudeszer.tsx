@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     topRow: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
     },
     topButtons: {
         marginTop: 10,

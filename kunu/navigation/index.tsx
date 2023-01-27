@@ -9,19 +9,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, View, Text } from "react-native";
 import useColorScheme from "../hooks/useColorScheme";
-import ModalScreen from "../screens/ModalScreen";
-import { human } from 'react-native-typography';
 import LinkingConfiguration from "./LinkingConfiguration";
 import { GlobalStyles } from "../constants/Styles";
 import IconButton from "../components/UI/IconButton";
 import Nudes from "../screens/Nudes";
-import Adding from "../screens/Adding";
 import Settings from "../screens/Settings";
-import SearchBar from "../screens/SearchBar";
 import ShowFriends from "../screens/ShowFriends";
 import AddFriends from "../screens/AddFriend";
 import Nudeszer from "../screens/Nudeszer";
 import AddPhoto from '../screens/AddPhoto';
+import PhotoDetails from '../screens/PhotoDetails';
+import SlidingView from "../components/SlidingView";
+import Carousel from '../components/Carousel';
 
 export default function Navigation({
     colorScheme,
@@ -70,18 +69,25 @@ function RootNavigator() {
                     title: "",
                 }}
             />
-            {/* <Stack.Group screenOptions={{ presentation: "modal" }}>
-                <Stack.Screen name="Modal" component={ModalScreen} />
-            </Stack.Group> */}
+            <Stack.Screen
+                name="PhotoDetails"
+                component={PhotoDetails}
+                options={{
+                    title: "",
+                }}
+            />
+            <Stack.Screen
+                name="SlidingView"
+                component={SlidingView}
+                options={{
+                    title: "",
+                }}
+            />
         </Stack.Navigator>
     );
 }
 
 const BottomTabs = createBottomTabNavigator();
-
-const defaultHandler = () => {
-    console.log('coucou');
-}
 
 function BottomTabNavigator() {
     const colorScheme = useColorScheme();
@@ -135,7 +141,7 @@ function BottomTabNavigator() {
                 ),
                 headerLeft: ({ tintColor }) => (
                     <View style={{marginLeft: 15,}}>
-                        <Text style={human.largeTitleWhiteObject}>Kunu</Text>
+                        <Text style={textStyles}>Kunu</Text>
                     </View>
                 ),
             })}
@@ -163,6 +169,14 @@ function BottomTabNavigator() {
         </BottomTabs.Navigator>
     );
 }
+
+const textStyles = {
+    fontFamily: "Helvetica",
+    fontWeight: "bold",
+    fontSize: 25,
+    lineHeight: 22.4,
+    color: "black"
+  };
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];

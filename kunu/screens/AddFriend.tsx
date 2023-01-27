@@ -5,26 +5,58 @@ import {
   Text,
   SafeAreaView,
   ActivityIndicator,
+  View,
+  FlatList,
+  Pressable,
+  TouchableHighlight,
 } from "react-native";
+
+import Button from "../components/UI/Button";
 
 import List from "../components/List";
 import SearchBar from "../components/SearchBar";
+import Connections from "../components/Connections";
+import { REQUESTS } from "../data/dummy-data";
+import { GlobalStyles } from "../constants/Styles";
+import { Ionicons } from "@expo/vector-icons";
+
+const touchDemand = () => {
+    console.log("demand touched");
+};
+
+function renderDemands(itemData: any) {
+    return (
+        <Pressable
+            onPress={touchDemand}
+            style={({ pressed }) => pressed && styles.pressed}
+        >
+            <View style={styles.expenseItem}>
+                <Text style={{flex: 1, textAlign: 'left', fontWeight: "bold", marginLeft: 10}}>{itemData.item.name}</Text>
+                <Pressable
+                    onPress={touchDemand}
+                    style={({ pressed }) => pressed && styles.pressed}
+                >
+                    <View style={{flex:1, justifyContent: 'flex-end', marginRight: 10}}>
+                        <Ionicons name="close-circle" size={25} color="red" />
+                    </View>
+                </Pressable>
+                    <Pressable
+                        onPress={touchDemand}
+                        style={({ pressed }) => pressed && styles.pressed}
+                    >
+                    <View style={{flex: 1, justifyContent: 'flex-end', marginRight: 40}}>
+                        <Ionicons name="checkmark-circle" size={25} color="green" />
+                    </View>
+                </Pressable>
+            </View>
+        </Pressable>
+    );
+}
+
 
 const AddFriends = () => {
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
-  const [fakeData, setFakeData] = useState();
-
-  useEffect(() => {
-    const getData = async () => {
-      const apiResponse = await fetch(
-        "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
-      );
-      const data = await apiResponse.json();
-      setFakeData(data);
-    };
-    getData();
-  }, []);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -35,17 +67,11 @@ const AddFriends = () => {
         setClicked={setClicked}
         placeholder={'Add Kunuer'}
       />
-      {!fakeData ? (
-        <ActivityIndicator size="large" />
-      ) : (
-        
-          <List
-            searchPhrase={searchPhrase}
-            data={fakeData}
-            setClicked={setClicked}
-          />
-        
-      )}
+        <FlatList
+            data={REQUESTS}
+            renderItem={renderDemands}
+            keyExtractor={(item) => item.id}
+        />
     </SafeAreaView>
   );
 };
@@ -54,9 +80,7 @@ export default AddFriends;
 
 const styles = StyleSheet.create({
   root: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
+    },
   title: {
     width: "100%",
     marginTop: 20,
@@ -64,4 +88,33 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: "10%",
   },
+  containers: {
+    flex: 1,
+    },
+    pressed: {
+        opacity: 0.75,
+        backgroundColor: 'white'
+    },
+    expenseItem: {
+        flex: 1,
+        marginLeft: 10,
+        marginVertical: 10,
+        flexDirection: "row",
+        justifyContent: 'flex-end',
+    },
+    category: {
+    },
+    textBase: {
+        color: GlobalStyles.colors.primary50,
+    },
+    description: {
+        fontSize: 16,
+        marginBottom: 4,
+        fontWeight: "bold",
+    },
+    amount: {
+        fontWeight: "bold",
+        // alignContent: 'center',
+        // justifyContent: 'center'
+    },
 });
