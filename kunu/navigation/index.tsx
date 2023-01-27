@@ -152,7 +152,6 @@ function BottomTabNavigator() {
             />
             <BottomTabs.Screen
                 name="Photos"
-                // component={check === "AddFriends" ? Nudes : checkzer ? AddFriends : Nudeszer}
                 component={checkzer ? AddPhoto : check === "AddFriends" ? Nudes : Nudeszer}
                 options={{
                     title: '',
