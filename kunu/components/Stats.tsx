@@ -1,13 +1,15 @@
-import { Text, View, Image } from 'react-native';
+import { View, Image, Dimensions } from 'react-native';
 
-const Stats = (props:any) => {
+const Stats = (props:{id: string, path: string}) => {
+    const path = '../data/images/' + '1.jpeg';
+    // console.log(`the path is ${props.path}`);
+
     return (
-        <View style={{height: '100%', width: '100%', flex:1, backgroundColor: 'red'}}>
-            <Text style={{flex:1}}>Coucou</Text>
-            <Image source={require('../data/new_photo.png')} style = {{ width: 500, height: 500 }} />
+        <View style={{height: '100%', width: '100%', alignContent: 'center', justifyContent: 'center'}}>
+            <Image source={require(path)} style = {{height: 500, width: Dimensions.get('window').width}} />
         </View>
     );
-}
+};
 
 export default Stats;
 

@@ -20,7 +20,6 @@ import Nudeszer from "../screens/Nudeszer";
 import AddPhoto from '../screens/AddPhoto';
 import PhotoDetails from '../screens/PhotoDetails';
 import SlidingView from "../components/SlidingView";
-import Carousel from '../components/Carousel';
 
 export default function Navigation({
     colorScheme,
@@ -141,7 +140,7 @@ function BottomTabNavigator() {
                 ),
                 headerLeft: ({ tintColor }) => (
                     <View style={{marginLeft: 15,}}>
-                        <Text style={textStyles}>Kunu</Text>
+                        <Text style={{fontFamily: "Helvetica", fontWeight: "bold",color: "black", fontSize: 25 }}>Kunu</Text>
                     </View>
                 ),
             })}
@@ -169,14 +168,6 @@ function BottomTabNavigator() {
         </BottomTabs.Navigator>
     );
 }
-
-const textStyles = {
-    fontFamily: "Helvetica",
-    fontWeight: "bold",
-    fontSize: 25,
-    lineHeight: 22.4,
-    color: "black"
-  };
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];

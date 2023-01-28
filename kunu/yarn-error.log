@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @types/react-native-image-gallery
+  /usr/local/bin/node /usr/local/bin/yarn add -D eslint-plugin-react@latest eslint-config-standard-with-typescript@latest @typescript-eslint/eslint-plugin@^5.0.0 eslint@^8.0.1 eslint-plugin-import@^2.25.2 eslint-plugin-n@^15.0.0 eslint-plugin-promise@^6.0.0 typescript@*
 
 PATH: 
-  /bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin
+  /Users/nicolassartral/.npm/_npx/7ef27be80482e586/node_modules/.bin:/Users/nicolassartral/Desktop/kunu/kunu/node_modules/.bin:/Users/nicolassartral/Desktop/kunu/node_modules/.bin:/Users/nicolassartral/Desktop/node_modules/.bin:/Users/nicolassartral/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin
 
 Yarn version: 
   1.22.19

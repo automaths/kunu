@@ -1,23 +1,17 @@
-import { View } from "react-native";
-import Carousel from "./Carousel";
+import { View } from 'react-native';
+import Carousel from './Carousel';
+import { IMAGES } from '../data/dummy-data';
 
 const SlidingView = () => {
-
     return (
-        <View style={{flex:1}}>
-          <Carousel
-              style="slides"
-              itemsPerInterval={1}
-              items={[{
-                  title: 'Welcome, swipe to continue.',
-              }, {
-                  title: 'About feature X.',
-              }, {
-                  title: 'About feature Y.',
-              }]} />
+        <View style={{ flex: 1 }}>
+            <Carousel
+                style="slides"
+                itemsPerInterval={IMAGES.length}
+                items={[IMAGES]}
+            />
         </View>
     );
-
-}
+};
 
 export default SlidingView;
