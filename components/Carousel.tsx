@@ -29,7 +29,7 @@ export const Carousel = (props: any) => {
                 pagingEnabled
                 decelerationRate="fast"
             >
-                {items.map((item: any, index: number) => {
+                {items[0].map((item: any, index: number) => {
                     console.log(`the item index is ${item.index}`);
                     console.log(item);
                     return (

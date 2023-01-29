@@ -29,8 +29,7 @@ function IncomingPhotos() {
                         image={item.item.image}
                         onPress={() => {
                             navigation.navigate('SlidingView', {
-                                index: item.item.index,
-                                images: images,
+                                image: item.item.image,
                             });
                         }}
                         onLongPress={() => {
