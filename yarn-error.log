@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add -D eslint-plugin-react@latest eslint-config-standard-with-typescript@latest @typescript-eslint/eslint-plugin@^5.0.0 eslint@^8.0.1 eslint-plugin-import@^2.25.2 eslint-plugin-n@^15.0.0 eslint-plugin-promise@^6.0.0 typescript@*
+  /usr/local/bin/node /usr/local/bin/yarn add @react-native-community/netinfo
 
 PATH: 
-  /Users/nicolassartral/.npm/_npx/7ef27be80482e586/node_modules/.bin:/Users/nicolassartral/Desktop/kunu/kunu/node_modules/.bin:/Users/nicolassartral/Desktop/kunu/node_modules/.bin:/Users/nicolassartral/Desktop/node_modules/.bin:/Users/nicolassartral/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin
+  /usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin
 
 Yarn version: 
   1.22.19
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/nicolassartral/Desktop/kunu/kunu/node_modules/resolve/.editorconfig'
+  Error: EACCES: permission denied, unlink '/Users/nicolassartral/Desktop/kunu/node_modules/resolve/.eslintrc'
 
 npm manifest: 
   {
@@ -33,10 +33,14 @@ npm manifest:
     },
     "dependencies": {
       "@expo/vector-icons": "^13.0.0",
+      "@react-native-async-storage/async-storage": "^1.17.11",
       "@react-navigation/bottom-tabs": "^6.0.5",
       "@react-navigation/native": "^6.0.2",
       "@react-navigation/native-stack": "^6.1.0",
+      "aws-amplify": "^5.0.11",
+      "axios": "^1.2.6",
       "expo": "~47.0.12",
+      "expo-app-loading": "^2.1.1",
       "expo-asset": "~8.7.0",
       "expo-constants": "~14.0.2",
       "expo-font": "~11.0.1",

@@ -17,7 +17,11 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 import IconButton from './components/UI/IconButton';
 import {Colors} from './constants/Colors_js';
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
 
+
+Amplify.configure(awsconfig);
 const Stack = createNativeStackNavigator();
 
 function AuthStack() {
