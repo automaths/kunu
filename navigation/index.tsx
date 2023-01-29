@@ -19,20 +19,20 @@ import AddPhoto from '../screens/AddPhoto';
 import SlidingView from '../components/SlidingView';
 import AddFriends from '../screens/AddFriend';
 
-export default function Navigation({
-    colorScheme,
-}: {
-    colorScheme: ColorSchemeName;
-}) {
-    return (
-        <NavigationContainer
-            linking={LinkingConfiguration}
-            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-        >
-            <RootNavigator />
-        </NavigationContainer>
-    );
-}
+// export default function Navigation({
+//     colorScheme,
+// }: {
+//     colorScheme: ColorSchemeName;
+// }) {
+//     return (
+//         <NavigationContainer
+//             linking={LinkingConfiguration}
+//             theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+//         >
+//             <RootNavigator />
+//         </NavigationContainer>
+//     );
+// }
 
 export type RootStackParamList = {
     Root: undefined;

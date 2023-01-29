@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-kunu-staging-140907-authRole",
+      "UnauthRoleArn": "arn:aws:iam::560718704070:role/amplify-kunu-staging-140907-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::560718704070:role/amplify-kunu-staging-140907-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-kunu-staging-140907-deployment",
+      "UnauthRoleName": "amplify-kunu-staging-140907-unauthRole",
+      "StackName": "amplify-kunu-staging-140907",
+      "StackId": "arn:aws:cloudformation:us-east-1:560718704070:stack/amplify-kunu-staging-140907/7f239d70-9fde-11ed-a121-0a9e8bdf8903",
+      "AmplifyAppId": "d24rppum1e8fif"
+    },
+    "categories": {
+      "auth": {
+        "Kunu": {}
+      }
+    }
+  }
+}
