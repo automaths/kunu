@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
-    Text,
     SafeAreaView,
     ActivityIndicator,
 } from 'react-native';
 
-import List from '../components/List';
+import List from './List';
 import SearchBar from '../components/SearchBar';
 
 const Home = () => {

@@ -1,38 +1,36 @@
-import { FlatList, Pressable, StyleSheet, TextInput } from "react-native";
-import { SetStateAction, useState } from "react";
-import { Text, View } from "./Themed";
-import Input from "./UI/Input";
-import { USERS } from "../data/dummy-data";
+import { Text, View } from "../components/Themed";
+import { FlatList, Pressable, StyleSheet } from "react-native";
+import { REQUESTS } from "../data/dummy-data";
 import { GlobalStyles } from "../constants/Styles";
-import { Ionicons } from "@expo/vector-icons";
 
-const AddConnection = (props:any) => {
-    const [search, setSearch] = useState("");
-
-    function inputChangedHandler(enteredValue: SetStateAction<string>) {
-        setSearch(enteredValue);
-    }
-
-    const sendRequest = () => {
-        console.log("send requests");
+const Connections = () => {
+    const touchDemand = () => {
+        console.log("demand touched");
     };
-
-    const openDetails = () => {
-        props.navigation.navigate("AddFriend");
-    }
-
-    function renderDemands(itemData: any) {
+    // function renderDemands(itemData: any) {
+    //     return (
+    //         <Pressable
+    //             onPress={touchDemand}
+    //             style={({ pressed }) => pressed && styles.pressed}
+    //         >
+    //             <View style={styles.expenseItem}>
+    //                 <View style={styles.amountContainer}>
+    //                     <Text style={styles.amount}>{"Photo"}</Text>
+    //                 </View>
+    //             </View>
+    //         </Pressable>
+    //     );
+    // }
+    function renderRequests(itemData: any) {
         return (
             <Pressable
-                onPress={sendRequest}
-                onLongPress={openDetails}
+                onPress={touchDemand}
                 style={({ pressed }) => pressed && styles.pressed}
             >
                 <View style={styles.expenseItem}>
                     <View style={styles.amountContainer}>
                         <Text style={styles.amount}>{itemData.item.name}</Text>
                     </View>
-                    <Ionicons name="send" size={24} color="white" />
                 </View>
             </Pressable>
         );
@@ -40,23 +38,11 @@ const AddConnection = (props:any) => {
 
     return (
         <>
-            <View>
-                <View>
-                    <Input
-                        label="Add friend"
-                        textInputConfig={{
-                            placeholder: "Enter username",
-                            onChangeText: inputChangedHandler,
-                            value: search,
-                        }}
-                    >
-                        This is the input
-                    </Input>
-                </View>
-                <View>
+            <View style={styles.containers}>
+                <View style={styles.containers}>
                     <FlatList
-                        data={USERS}
-                        renderItem={renderDemands}
+                        data={REQUESTS}
+                        renderItem={renderRequests}
                         keyExtractor={(item) => item.id}
                     />
                 </View>
@@ -65,7 +51,7 @@ const AddConnection = (props:any) => {
     );
 };
 
-export default AddConnection;
+export default Connections;
 
 const styles = StyleSheet.create({
     containers: {
@@ -87,6 +73,10 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: 0.4,
     },
+    category: {
+        padding: 7,
+        backgroundColor: GlobalStyles.colors.primary500,
+    },
     textBase: {
         color: GlobalStyles.colors.primary50,
     },
@@ -107,8 +97,5 @@ const styles = StyleSheet.create({
     amount: {
         color: GlobalStyles.colors.primary500,
         fontWeight: "bold",
-    },
-    sendIcon: {
-        flex: 1,
     },
 });

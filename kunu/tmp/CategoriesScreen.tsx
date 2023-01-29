@@ -1,11 +1,15 @@
 import { FlatList } from 'react-native';
 import CategoryGridTile from '../components/CategoryGridTile';
-import { CATEGORIESZER } from '../data/dummy-data';
+import { CATEGORIES } from '../data/dummy-data';
 
-function IncomingPhotoszer(props: any) {
+// import { CATEGORIES } from '../data/dummy-data.tsx';
+
+function CategoriesScreen(props: any) {
     function renderCategoryItem(itemData: any) {
         function pressHandler() {
-            console.log(props);
+            props.navigation.navigate('MealsOverview', {
+                categoryId: itemData.item.id,
+            });
         }
 
         return (
@@ -19,12 +23,12 @@ function IncomingPhotoszer(props: any) {
 
     return (
         <FlatList
-            data={CATEGORIESZER}
+            data={CATEGORIES}
             keyExtractor={(item) => item.id}
             renderItem={renderCategoryItem}
-            numColumns={3}
+            numColumns={2}
         />
     );
 }
 
-export default IncomingPhotoszer;
+export default CategoriesScreen;

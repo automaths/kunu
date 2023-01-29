@@ -31,18 +31,18 @@ export const CATEGORIESZER = [
 ];
 
 export const IMAGES = [
-    new Image('c1', require('./images/1.jpeg')),
-    new Image('c2', require('./images/2.jpeg')),
-    new Image('c3', require('./images/3.jpeg')),
-    new Image('c4', require('./images/4.jpeg')),
-    new Image('c5', require('./images/5.jpeg')),
-    new Image('c6', require('./images/6.jpeg')),
-    new Image('c7', require('./images/7.jpeg')),
-    new Image('c8', require('./images/8.jpeg')),
-    new Image('c9', require('./images/9.jpeg')),
-    new Image('c10', require('./images/10.jpeg')),
-    new Image('c11', require('./images/11.jpeg')),
-    new Image('c12', require('./images/12.jpeg')),
+    new Image('c1', require('./images/1.jpeg'), 0),
+    new Image('c2', require('./images/2.jpeg'), 1),
+    new Image('c3', require('./images/3.jpeg'), 2),
+    new Image('c4', require('./images/4.jpeg'), 3),
+    new Image('c5', require('./images/5.jpeg'), 4),
+    new Image('c6', require('./images/6.jpeg'), 5),
+    new Image('c7', require('./images/7.jpeg'), 6),
+    new Image('c8', require('./images/8.jpeg'), 7),
+    new Image('c9', require('./images/9.jpeg'), 8),
+    new Image('c10', require('./images/10.jpeg'), 9),
+    new Image('c11', require('./images/11.jpeg'), 10),
+    new Image('c12', require('./images/12.jpeg'), 11),
 ];
 
 export const USERS = [

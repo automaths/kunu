@@ -4,7 +4,7 @@ import Button from "../components/UI/Button";
 import { GlobalStyles } from "../constants/Styles";
 import { FlatList, StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
-import IncomingPhotos from "./IncomingPhotos";
+import IncomingPhotos from "../screens/IncomingPhotos";
 
 const Received = () => {
     return (

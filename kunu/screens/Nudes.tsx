@@ -1,27 +1,14 @@
-import { useState } from "react";
-import { Text, View } from "../components/Themed";
-import Button from "../components/UI/Button";
 import { GlobalStyles } from "../constants/Styles";
-import { FlatList, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {Dimensions} from 'react-native';
-import Received from "./Received";
-import Sent from "./Sent";
+import IncomingPhotos from "./IncomingPhotos";
 
 const Nudes = () => {
-    const [toggling, setToggling] = useState(true);
-
-    const toggleReceived = () => {
-        if (toggling === false) setToggling(true);
-    };
-
-    const toggleSent = () => {
-        if (toggling === true) setToggling(false);
-    };
 
     return (
         <View style={styles.base}>
             <View style={styles.gallerie}>
-                <Received />
+                <IncomingPhotos />
             </View>
         </View>
     );

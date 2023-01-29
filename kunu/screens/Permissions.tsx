@@ -15,7 +15,6 @@ export default function Permissions() {
                 <Pressable
                     onPress={() => setConnections(!connections)}
                     style={styles.pressable}
-                    // style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
                 >
                     <View style={styles.innerCategory}>
                         {connections ? (
@@ -41,7 +40,6 @@ export default function Permissions() {
                 <Pressable
                     onPress={() => setInvitations(!invitations)}
                     style={styles.pressable}
-                    // style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
                 >
                     <View style={styles.innerCategory}>
                         {invitations ? (

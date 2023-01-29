@@ -1,25 +1,23 @@
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
     NavigationContainer,
     DefaultTheme,
     DarkTheme,
-} from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import * as React from "react";
-import { ColorSchemeName, View, Text } from "react-native";
-import useColorScheme from "../hooks/useColorScheme";
-import LinkingConfiguration from "./LinkingConfiguration";
-import { GlobalStyles } from "../constants/Styles";
-import IconButton from "../components/UI/IconButton";
-import Nudes from "../screens/Nudes";
-import Settings from "../screens/Settings";
-import ShowFriends from "../screens/ShowFriends";
-import AddFriends from "../screens/AddFriend";
-import Nudeszer from "../screens/Nudeszer";
+} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as React from 'react';
+import { ColorSchemeName, View, Text } from 'react-native';
+import LinkingConfiguration from './LinkingConfiguration';
+import { GlobalStyles } from '../constants/Styles';
+import IconButton from '../components/UI/IconButton';
+import Nudes from '../screens/Nudes';
+import Settings from '../screens/Settings';
+import ShowFriends from '../screens/ShowFriends';
+import Nudeszer from '../screens/Nudeszer';
 import AddPhoto from '../screens/AddPhoto';
-import PhotoDetails from '../screens/PhotoDetails';
-import SlidingView from "../components/SlidingView";
+import SlidingView from '../components/SlidingView';
+import AddFriends from '../screens/AddFriend';
 
 export default function Navigation({
     colorScheme,
@@ -29,18 +27,27 @@ export default function Navigation({
     return (
         <NavigationContainer
             linking={LinkingConfiguration}
-            theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
         >
             <RootNavigator />
         </NavigationContainer>
     );
 }
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+    Root: undefined;
+    Settings: undefined;
+    AddFriends: undefined;
+    ShowFriends: undefined;
+    SlidingView: undefined;
+    index: undefined;
+  };
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName='Root'>
             <Stack.Screen
                 name="Root"
                 component={BottomTabNavigator}
@@ -51,35 +58,28 @@ function RootNavigator() {
                 name="Settings"
                 component={Settings}
                 options={{
-                    title: "",
+                    title: '',
                 }}
             />
             <Stack.Screen
                 name="AddFriends"
                 component={AddFriends}
                 options={{
-                    title: "",
+                    title: '',
                 }}
             />
             <Stack.Screen
                 name="ShowFriends"
                 component={ShowFriends}
                 options={{
-                    title: "",
-                }}
-            />
-            <Stack.Screen
-                name="PhotoDetails"
-                component={PhotoDetails}
-                options={{
-                    title: "",
+                    title: '',
                 }}
             />
             <Stack.Screen
                 name="SlidingView"
                 component={SlidingView}
                 options={{
-                    title: "",
+                    title: '',
                 }}
             />
         </Stack.Navigator>
@@ -89,29 +89,29 @@ function RootNavigator() {
 const BottomTabs = createBottomTabNavigator();
 
 function BottomTabNavigator() {
-    const colorScheme = useColorScheme();
-
-    const socialRoutes = ["Social", ];
-    const photoRoutes = ["Photo", ]
-
+    // const colorScheme = useColorScheme();
+    const socialRoutes = ['Social'];
     const [check, setCheck] = React.useState('AddFriends');
     const [checkzer, setCheckzer] = React.useState(true);
-
     return (
         <BottomTabs.Navigator
             screenOptions={({ navigation, route }) => ({
                 headerStyle: {
                     backgroundColor: GlobalStyles.colors.primary200,
                 },
-                headerTintColor: "white",
+                headerTintColor: 'white',
                 tabBarStyle: {
                     backgroundColor: GlobalStyles.colors.primary200,
                 },
-                tabBarActiveTintColor: "white",
+                tabBarActiveTintColor: 'white',
                 headerRight: ({ tintColor }) => (
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{ flexDirection: 'row' }}>
                         <IconButton
-                            icon={socialRoutes.includes(route.name) ? 'person-add' : 'share'}
+                            icon={
+                                socialRoutes.includes(route.name)
+                                    ? 'person-add'
+                                    : 'share'
+                            }
                             size={28}
                             color={tintColor}
                             onPress={() => {
@@ -120,7 +120,11 @@ function BottomTabNavigator() {
                             }}
                         />
                         <IconButton
-                            icon={socialRoutes.includes(route.name) ? 'people' : 'copy'}
+                            icon={
+                                socialRoutes.includes(route.name)
+                                    ? 'people'
+                                    : 'copy'
+                            }
                             size={28}
                             color={tintColor}
                             onPress={() => {
@@ -129,25 +133,42 @@ function BottomTabNavigator() {
                             }}
                         />
                         <IconButton
-                            icon={socialRoutes.includes(route.name) ? 'settings' : 'add-circle'}
+                            icon={
+                                socialRoutes.includes(route.name)
+                                    ? 'settings'
+                                    : 'add-circle'
+                            }
                             size={28}
                             color={tintColor}
                             onPress={() => {
-                                socialRoutes.includes(route.name) ? navigation.navigate("Settings") : setCheckzer(true);
+                                // eslint-disable-next-line no-unused-expressions
+                                socialRoutes.includes(route.name)
+                                    ? navigation.navigate('Settings')
+                                    : setCheckzer(true);
                             }}
                         />
                     </View>
                 ),
+                // eslint-disable-next-line no-unused-vars
                 headerLeft: ({ tintColor }) => (
-                    <View style={{marginLeft: 15,}}>
-                        <Text style={{fontFamily: "Helvetica", fontWeight: "bold",color: "black", fontSize: 25 }}>Kunu</Text>
+                    <View style={{ marginLeft: 15 }}>
+                        <Text
+                            style={{
+                                fontFamily: 'Helvetica',
+                                fontWeight: 'bold',
+                                color: 'black',
+                                fontSize: 25,
+                            }}
+                        >
+                            Kunu
+                        </Text>
                     </View>
                 ),
             })}
         >
             <BottomTabs.Screen
                 name="Social"
-                component={check === "AddFriends" ? AddFriends : ShowFriends}
+                component={check === 'AddFriends' ? AddFriends : ShowFriends}
                 options={{
                     title: '',
                     tabBarIcon: ({ color, size }) => (
@@ -157,21 +178,26 @@ function BottomTabNavigator() {
             />
             <BottomTabs.Screen
                 name="Photos"
-                component={checkzer ? AddPhoto : check === "AddFriends" ? Nudes : Nudeszer}
+                component={
+                    checkzer
+                        ? AddPhoto
+                        : check === 'AddFriends'
+                            ? Nudes
+                            : Nudeszer
+                }
                 options={{
                     title: '',
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="camera" size={size} color={color} />
                     ),
                 }}
-                />
+            />
         </BottomTabs.Navigator>
     );
 }
-
-function TabBarIcon(props: {
-    name: React.ComponentProps<typeof FontAwesome>["name"];
-    color: string;
-}) {
-    return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+// function TabBarIcon(props: {
+//     name: React.ComponentProps<typeof FontAwesome>['name'];
+//     color: string;
+// }) {
+//     return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+// }

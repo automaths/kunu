@@ -2,14 +2,14 @@ import { FlatList, StyleSheet } from "react-native";
 // import Button from '../components/UI/Button';
 import Input from "../components/UI/Input";
 
-import EditScreenInfo from "../components/EditScreenInfo";
+import EditScreenInfo from "./EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import React, { useState } from "react";
 import { GlobalStyles } from "../constants/Styles";
 import Button from "../components/UI/Button";
 
 import { USERS } from "../data/dummy-data";
-import Connection from "../components/Connections";
+import Connection from "./Connections";
 import Authorizations from "../components/Authorizations";
 
 import {Dimensions} from 'react-native';

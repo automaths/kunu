@@ -18,9 +18,6 @@ export const Carousel = (props: any) => {
         setIntervals(Math.ceil(totalItems / itemsPerInterval));
     };
 
-    // console.log(`the item is ${items}`);
-    // console.log(items);
-
     return (
         <View>
             <ScrollView
@@ -33,29 +30,17 @@ export const Carousel = (props: any) => {
                 decelerationRate="fast"
             >
                 {items.map((item: any, index: number) => {
-                    console.log(`the item is`);
+                    console.log(`the item index is ${item.index}`);
                     console.log(item);
-                    switch (style) {
-                    case 'stats':
-                        return (
-                            <Stats
-                                key={index}
-                                index={index}
-                                id={item.id}
-                                path={item.path}
-                            />
-                        );
-
-                    default:
-                        return (
-                            <Stats
-                                key={index}
-                                index={index}
-                                id={item.id}
-                                path={item.path}
-                            />
-                        );
-                    }
+                    return (
+                        <Stats
+                            key={index}
+                            index={index}
+                            id={item.id}
+                            path={item.path}
+                            image={item.image}
+                        />
+                    );
                 })}
             </ScrollView>
         </View>

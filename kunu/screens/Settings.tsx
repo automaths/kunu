@@ -1,6 +1,4 @@
 import { StyleSheet } from "react-native";
-
-import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import { GlobalStyles } from "../constants/Styles";
 
@@ -68,7 +66,6 @@ export default function Settings() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // alignItems: 'center',
     },
     title: {
         fontSize: 20,
@@ -82,7 +79,7 @@ const styles = StyleSheet.create({
     category: {
         marginTop: 10,
         padding: 7,
-        backgroundColor: GlobalStyles.colors.primary500,
+        backgroundColor: GlobalStyles.colors.primary50,
     },
     deleteAccount: {
         marginTop: 20,

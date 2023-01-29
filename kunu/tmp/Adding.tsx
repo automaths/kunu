@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 import Button from "../components/UI/Button";
 import { GlobalStyles } from "../constants/Styles";
-import { FlatList, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import {Dimensions} from 'react-native';
-import Received from "./Received";
-import Sent from "./Sent";
-import AddFriend from '../components/AddConnection';
-import AddPhoto from './AddPhoto';
+import AddFriend from './AddConnection';
+import AddPhoto from '../screens/AddPhoto';
 
 const Adding = () => {
     const [toggling, setToggling] = useState(true);

@@ -1,70 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
     Text,
     SafeAreaView,
     View,
     FlatList,
-    Pressable,
 } from 'react-native';
-
 import SearchBar from '../components/SearchBar';
 import { DEMANDS, REQUESTS } from '../data/dummy-data';
 import { GlobalStyles } from '../constants/Styles';
-import { Ionicons } from '@expo/vector-icons';
-
-const touchDemand = () => {
-    console.log('demand touched');
-};
-
-function renderDemands(itemData: any) {
-    return (
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-            <Pressable
-                onPress={touchDemand}
-                style={({ pressed }) => pressed && styles.pressed}
-            >
-                <Text style={{ flex: 1, textAlign: 'left', fontSize: 15 }}>
-                    {itemData.item.name}
-                </Text>
-            </Pressable>
-            <View style={styles.expenseItem}>
-                <View style={{ marginRight: 8, marginBottom: 5 }}>
-                    <Pressable
-                        onPress={touchDemand}
-                        style={({ pressed }) => pressed && styles.pressed}
-                    >
-                        <View style={{ justifyContent: 'flex-end' }}>
-                            <Ionicons
-                                name="close-circle"
-                                size={25}
-                                color="red"
-                            />
-                        </View>
-                    </Pressable>
-                </View>
-            </View>
-            <View style={{ marginRight: 8 }}>
-                <Pressable
-                    onPress={touchDemand}
-                    style={({ pressed }) => pressed && styles.pressed}
-                >
-                    <View style={{ justifyContent: 'flex-end' }}>
-                        <Ionicons
-                            name="checkmark-circle"
-                            size={25}
-                            color="#0CC703"
-                        />
-                    </View>
-                </Pressable>
-            </View>
-        </View>
-    );
-}
+import RenderIncomingInvitations from '../components/RenderRequestsSent';
+import RenderRequestsSent from '../components/RenderRequestsSent';
+import RenderPendingInvitations from '../components/RenderPendingInvitations';
 
 const AddFriends = () => {
     const [searchPhrase, setSearchPhrase] = useState('');
     const [clicked, setClicked] = useState(false);
+    const [demands, setDemands] = useState([
+        {
+            id: '',
+            name: '',
+        },
+    ]);
+    const [requests, setRequests] = useState([
+        {
+            id: '',
+            name: '',
+        },
+    ]);
+
+    useEffect(() => {
+        setDemands(DEMANDS);
+        setRequests(REQUESTS);
+    }, [false]);
 
     return (
         <SafeAreaView style={styles.root}>
@@ -73,7 +41,7 @@ const AddFriends = () => {
                 setSearchPhrase={setSearchPhrase}
                 clicked={clicked}
                 setClicked={setClicked}
-                placeholder={'Add Kunuer'}
+                placeholder={'Search Kunuer'}
             />
             <View style={styles.invitationContainer}>
                 <Text
@@ -86,8 +54,25 @@ const AddFriends = () => {
                     Pending Invitations
                 </Text>
                 <FlatList
-                    data={DEMANDS}
-                    renderItem={renderDemands}
+                    data={demands}
+                    renderItem={(item) => {
+                        return (
+                            <RenderPendingInvitations
+                                item={item}
+                                demands={demands}
+                                onTouch={() => {
+                                    {
+                                        setDemands(
+                                            demands.filter(
+                                                (request) =>
+                                                    request.id !== item.item.id,
+                                            ),
+                                        );
+                                    }
+                                }}
+                            />
+                        );
+                    }}
                     keyExtractor={(item) => item.id}
                 />
             </View>
@@ -102,8 +87,26 @@ const AddFriends = () => {
                     Requests Sent
                 </Text>
                 <FlatList
-                    data={REQUESTS}
-                    renderItem={renderDemands}
+                    data={requests}
+                    extraData={requests}
+                    renderItem={(item) => {
+                        return (
+                            <RenderRequestsSent
+                                item={item}
+                                requests={requests}
+                                onTouch={() => {
+                                    {
+                                        setRequests(
+                                            requests.filter(
+                                                (request) =>
+                                                    request.id !== item.item.id,
+                                            ),
+                                        );
+                                    }
+                                }}
+                            />
+                        );
+                    }}
                     keyExtractor={(item) => item.id}
                 />
             </View>
@@ -120,6 +123,7 @@ const styles = StyleSheet.create({
     },
     title: {
         width: '100%',
+        marginTop: 20,
         fontSize: 25,
         fontWeight: 'bold',
     },

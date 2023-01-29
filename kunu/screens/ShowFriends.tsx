@@ -1,115 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
     Text,
     SafeAreaView,
     View,
     FlatList,
-    Pressable,
+    Alert,
 } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import { DEMANDS, REQUESTS } from '../data/dummy-data';
 import { GlobalStyles } from '../constants/Styles';
-import { Ionicons } from '@expo/vector-icons';
+import RenderSendTo from '../components/RenderSendTo';
+import RenderIncomingPhotos from '../components/RenderIncomingPhotos';
 
-const touchDemand = () => {
-    console.log('demand touched');
-};
-
-function renderDemands(itemData: any) {
-    return (
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-            <Pressable
-                onPress={touchDemand}
-                style={({ pressed }) => pressed && styles.pressed}
-            >
-                <Text style={{ flex: 1, textAlign: 'left', fontSize: 15 }}>
-                    {itemData.item.name}
-                </Text>
-            </Pressable>
-            <View style={styles.expenseItem}>
-                <View style={{ marginBottom: 8, marginRight: 15 }}>
-                    <Pressable
-                        onPress={touchDemand}
-                        style={({ pressed }) => pressed && styles.pressed}
-                    >
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'flex-end',
-                            }}
-                        >
-                            <Ionicons name="send" size={25} color="#9B00FF" />
-                        </View>
-                    </Pressable>
-                </View>
-            </View>
-        </View>
-    );
-}
-
-function renderIncoming(itemData: any) {
-    return (
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-            <Pressable
-                onPress={touchDemand}
-                style={({ pressed }) => pressed && styles.pressed}
-            >
-                <Text style={{ flex: 1, textAlign: 'left', fontSize: 15 }}>
-                    {itemData.item.name}
-                </Text>
-            </Pressable>
-            <View style={styles.expenseItem}>
-                <View style={{ marginRight: 10, marginBottom: 5 }}>
-                    <Pressable
-                        onPress={touchDemand}
-                        style={({ pressed }) => pressed && styles.pressed}
-                    >
-                        <View style={{ justifyContent: 'flex-end' }}>
-                            <Ionicons
-                                name="eye"
-                                size={25}
-                                color={GlobalStyles.colors.primary100}
-                            />
-                        </View>
-                    </Pressable>
-                </View>
-                <View style={{ marginRight: 8, marginBottom: 5 }}>
-                    <Pressable
-                        onPress={touchDemand}
-                        style={({ pressed }) => pressed && styles.pressed}
-                    >
-                        <View style={{ justifyContent: 'flex-end' }}>
-                            <Ionicons
-                                name="close-circle"
-                                size={25}
-                                color="red"
-                            />
-                        </View>
-                    </Pressable>
-                </View>
-            </View>
-            <View style={{ marginRight: 8 }}>
-                <Pressable
-                    onPress={touchDemand}
-                    style={({ pressed }) => pressed && styles.pressed}
-                >
-                    <View style={{ justifyContent: 'flex-end' }}>
-                        <Ionicons
-                            name="checkmark-circle"
-                            size={25}
-                            color="#0CC703"
-                        />
-                    </View>
-                </Pressable>
-            </View>
-        </View>
-    );
-}
-
-const AddFriends = () => {
+const ShowFriends = () => {
     const [searchPhrase, setSearchPhrase] = useState('');
     const [clicked, setClicked] = useState(false);
+    const [demands, setDemands] = useState([
+        {
+            id: '',
+            name: '',
+        },
+    ]);
+    const [requests, setRequests] = useState([
+        {
+            id: '',
+            name: '',
+        },
+    ]);
+
+    useEffect(() => {
+        setDemands(DEMANDS);
+        setRequests(REQUESTS);
+    }, [false]);
 
     return (
         <SafeAreaView style={styles.root}>
@@ -131,8 +54,18 @@ const AddFriends = () => {
                     Send To
                 </Text>
                 <FlatList
-                    data={DEMANDS}
-                    renderItem={renderDemands}
+                    data={demands}
+                    renderItem={(item) => {
+                        return (
+                            <RenderSendTo
+                                item={item}
+                                demands={demands}
+                                onTouch={() => {
+                                    Alert.alert('you want to send a photo');
+                                }}
+                            />
+                        );
+                    }}
                     keyExtractor={(item) => item.id}
                 />
             </View>
@@ -147,8 +80,26 @@ const AddFriends = () => {
                     Incoming Photos
                 </Text>
                 <FlatList
-                    data={REQUESTS}
-                    renderItem={renderIncoming}
+                    data={requests}
+                    extraData={requests}
+                    renderItem={(item) => {
+                        return (
+                            <RenderIncomingPhotos
+                                item={item}
+                                requests={requests}
+                                onTouch={() => {
+                                    {
+                                        setRequests(
+                                            requests.filter(
+                                                (request) =>
+                                                    request.id !== item.item.id,
+                                            ),
+                                        );
+                                    }
+                                }}
+                            />
+                        );
+                    }}
                     keyExtractor={(item) => item.id}
                 />
             </View>
@@ -156,7 +107,7 @@ const AddFriends = () => {
     );
 };
 
-export default AddFriends;
+export default ShowFriends;
 
 const styles = StyleSheet.create({
     root: {},

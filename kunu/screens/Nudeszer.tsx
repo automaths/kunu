@@ -1,27 +1,14 @@
-import { useState } from "react";
-import { Text, View } from "../components/Themed";
-import Button from "../components/UI/Button";
+import { View } from "../components/Themed";
 import { GlobalStyles } from "../constants/Styles";
-import { FlatList, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import {Dimensions} from 'react-native';
-import Received from "./Received";
-import Sent from "./Sent";
+import IncomingPhotoszer from './IncomingPhotosZer';
 
 const Nudeszer = () => {
-    const [toggling, setToggling] = useState(true);
-
-    const toggleReceived = () => {
-        if (toggling === false) setToggling(true);
-    };
-
-    const toggleSent = () => {
-        if (toggling === true) setToggling(false);
-    };
-
     return (
         <View style={styles.base}>
             <View style={styles.gallerie}>
-                <Sent />
+                <IncomingPhotoszer />
             </View>
         </View>
     );
@@ -36,7 +23,6 @@ const styles = StyleSheet.create({
     },
     topRow: {
         flexDirection: "row",
-        // justifyContent: "space-between",
     },
     topButtons: {
         marginTop: 10,
