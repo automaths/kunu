@@ -5,20 +5,20 @@ import { createContext, useEffect, useState } from 'react';
 export const AuthContext = createContext({
     token: '',
     isAuthenticated: false,
-    authenticate: (token) => {},
+    authenticate: (token:any) => {},
     logout: () => {},
 });
 
-function AuthContextProvider({ children }) {
+function AuthContextProvider(props: { children:any }) {
     const [authToken, setAuthToken] = useState();
 
-    function authenticate(token) {
+    function authenticate(token:any) {
         setAuthToken(token);
         AsyncStorage.setItem('token', token);
     }
 
     function logout() {
-        setAuthToken(null);
+        setAuthToken(undefined);
         AsyncStorage.removeItem('token');
     }
 
@@ -30,7 +30,7 @@ function AuthContextProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
     );
 }
 

@@ -1,8 +1,5 @@
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
-// import Navigation from './navigation';
 
 import { useContext, useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,6 +16,7 @@ import IconButton from './components/UI/IconButton';
 import {Colors} from './constants/Colors_js';
 import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
+import ConfirmScreen from './screens/ConfirmScreen';
 
 
 Amplify.configure(awsconfig);
@@ -35,6 +33,8 @@ function AuthStack() {
         >
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Confirm" component={ConfirmScreen} />
+
         </Stack.Navigator>
     );
 }

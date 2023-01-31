@@ -6,7 +6,7 @@ import FlatButton from '../uit/FlatButton';
 import AuthForm from './AuthForm';
 import { Colors } from '../../constants/Colors_js';
 
-function AuthContent({ isLogin, onAuthenticate }) {
+function AuthContent(props: { isLogin:any, onAuthenticate:any }) {
   const navigation = useNavigation();
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
@@ -17,14 +17,14 @@ function AuthContent({ isLogin, onAuthenticate }) {
   });
 
   function switchAuthModeHandler() {
-    if (isLogin) {
-      navigation.replace('Signup');
+    if (props.isLogin) {
+      navigation.navigate('Signup');
     } else {
-      navigation.replace('Login');
+      navigation.navigate('Login');
     }
   }
 
-  function submitHandler(credentials) {
+  function submitHandler(credentials:any) {
     let { email, confirmEmail, password, confirmPassword } = credentials;
 
     email = email.trim();
@@ -38,7 +38,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
     if (
       !emailIsValid ||
       !passwordIsValid ||
-      (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
+      (!props.isLogin && (!emailsAreEqual || !passwordsAreEqual))
     ) {
       Alert.alert('Invalid input', 'Please check your entered credentials.');
       setCredentialsInvalid({
@@ -49,19 +49,19 @@ function AuthContent({ isLogin, onAuthenticate }) {
       });
       return;
     }
-    onAuthenticate({ email, password });
+    props.onAuthenticate({ email, password });
   }
 
   return (
     <View style={styles.authContent}>
       <AuthForm
-        isLogin={isLogin}
+        isLogin={props.isLogin}
         onSubmit={submitHandler}
         credentialsInvalid={credentialsInvalid}
       />
       <View style={styles.buttons}>
         <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? 'Create a new user' : 'Log in instead'}
+          {props.isLogin ? 'Create a new user' : 'Log in instead'}
         </FlatButton>
       </View>
     </View>
