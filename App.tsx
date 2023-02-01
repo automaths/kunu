@@ -17,6 +17,7 @@ import {Colors} from './constants/Colors_js';
 import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import ConfirmScreen from './screens/ConfirmScreen';
+import StartButton from './screens/StartButton';
 
 
 Amplify.configure(awsconfig);
@@ -34,7 +35,8 @@ function AuthStack() {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="Confirm" component={ConfirmScreen} />
-
+            <Stack.Screen name="Welcome" component={WelcomeScreen} /> 
+            <Stack.Screen name="StartButton" component={StartButton} /> 
         </Stack.Navigator>
     );
 }
