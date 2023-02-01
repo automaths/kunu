@@ -18,21 +18,26 @@ import Nudeszer from '../screens/Nudeszer';
 import AddPhoto from '../screens/AddPhoto';
 import SlidingView from '../components/SlidingView';
 import AddFriends from '../screens/AddFriend';
+import StartButton from '../screens/StartButton';
+import ConfirmScreen from '../screens/ConfirmScreen';
+import LoginScreen from '../screens/LoginScreen';
+import SignupScreen from '../screens/SignupScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
 
-// export default function Navigation({
-//     colorScheme,
-// }: {
-//     colorScheme: ColorSchemeName;
-// }) {
-//     return (
-//         <NavigationContainer
-//             linking={LinkingConfiguration}
-//             theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-//         >
-//             <RootNavigator />
-//         </NavigationContainer>
-//     );
-// }
+export default function Navigation({
+    colorScheme,
+}: {
+    colorScheme: ColorSchemeName;
+}) {
+    return (
+        <NavigationContainer
+            linking={LinkingConfiguration}
+            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        >
+            <RootNavigator />
+        </NavigationContainer>
+    );
+}
 
 export type RootStackParamList = {
     Root: undefined;
@@ -40,6 +45,11 @@ export type RootStackParamList = {
     AddFriends: undefined;
     ShowFriends: undefined;
     SlidingView: undefined;
+    Login: undefined;
+    Signup: undefined;
+    Confirm: undefined;
+    Welcome: undefined;
+    StartButton: undefined;
     index: undefined;
   };
 
@@ -47,7 +57,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
     return (
-        <Stack.Navigator initialRouteName='Root'>
+        <Stack.Navigator initialRouteName='Login'>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Confirm" component={ConfirmScreen} />
+            <Stack.Screen name="Welcome" component={WelcomeScreen} /> 
+            <Stack.Screen name="StartButton" component={StartButton} /> 
             <Stack.Screen
                 name="Root"
                 component={BottomTabNavigator}

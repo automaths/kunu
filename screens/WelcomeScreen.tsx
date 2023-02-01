@@ -6,6 +6,7 @@ import { AuthContext } from '../store/auth-context';
 
 import { Auth, Hub } from 'aws-amplify';
 import { useNavigation } from '@react-navigation/native';
+import Button from '../components/uit/Button';
 
 function listenToAutoSignInEvent() {
     Hub.listen('auth', ({ payload }) => {
@@ -13,9 +14,7 @@ function listenToAutoSignInEvent() {
         if (event === 'autoSignIn') {
             const user = payload.data;
             console.log('the user is signed in mamen');
-            // assign user
         } else if (event === 'autoSignIn_failure') {
-            // redirect to sign in page
             console.log('the user is not signed in');
         }
     })
@@ -35,7 +34,6 @@ function WelcomeScreen() {
 
     async function ionViewCanEnter() {
         try {
-            // await Auth.currentAuthenticatedUser();
             const test = await Auth.currentUserInfo();
             console.log('el testoune is');
             console.log(test);
@@ -58,23 +56,20 @@ function WelcomeScreen() {
         console.log(result);
         result ? console.log('user authenticated') : navigation.navigate('Login', {coucou: 'coucou'})
     });
-
-    
-    listenToAutoSignInEvent();
-    // axios
-    //   .get(
-    //     'https://react-native-course-3cceb-default-rtdb.firebaseio.com/message.json?auth=' +
-    //       token
-    //   )
-    //   .then((response) => {
-    //     setFetchedMesssage(response.data);
-    //   });
+    listenToAutoSignInEvent(); //not necessary
   }, [false]);
+
+  const handleSignOut = async () => {
+    await Auth.signOut();
+    navigation.navigate('Login', {coucou: 'coucou'});
+    //can use current user info to be sure
+  }
 
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Welcome!</Text>
       <Text>You authenticated successfully!</Text>
+      <Button onPress={handleSignOut}>Logout</Button>
       <Text>{fetchedMessage}</Text>
     </View>
   );
