@@ -65,10 +65,15 @@ function WelcomeScreen() {
     //can use current user info to be sure
   }
 
+  const handleEnter = async () => {
+    navigation.navigate('AddFriends', {coucou: 'coucou'});
+  }
+
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Welcome!</Text>
       <Text>You authenticated successfully!</Text>
+      <Button onPress={handleEnter}>Enter App</Button>
       <Button onPress={handleSignOut}>Logout</Button>
       <Text>{fetchedMessage}</Text>
     </View>
