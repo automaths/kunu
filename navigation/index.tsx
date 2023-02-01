@@ -57,17 +57,17 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
     return (
-        <Stack.Navigator initialRouteName='Login'>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
-            <Stack.Screen name="Confirm" component={ConfirmScreen} />
-            <Stack.Screen name="Welcome" component={WelcomeScreen} /> 
-            <Stack.Screen name="StartButton" component={StartButton} /> 
+        <Stack.Navigator initialRouteName='Root'>
             <Stack.Screen
                 name="Root"
                 component={BottomTabNavigator}
                 options={{ headerShown: false }}
             />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
+            <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }}/>
+            <Stack.Screen name="Confirm" component={ConfirmScreen} options={{ headerShown: false }}/>
+            <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }}/> 
+            <Stack.Screen name="StartButton" component={StartButton} options={{ headerShown: false }}/> 
 
             <Stack.Screen
                 name="Settings"
@@ -103,9 +103,17 @@ function RootNavigator() {
 
 const BottomTabs = createBottomTabNavigator();
 
+// "Login" component={LoginScreen} />
+//             <Stack.Screen name="Signup" component={SignupScreen} />
+//             <Stack.Screen name="Confirm" component={ConfirmScreen} />
+//             <Stack.Screen name="Welcome" component={WelcomeScreen} /> 
+//             <Stack.Screen name="StartButton"
+
 function BottomTabNavigator() {
     // const colorScheme = useColorScheme();
     const socialRoutes = ['Social'];
+    const loginRoutes = ['Login', 'Signup', 'Confirm', 'Welcome', 'StartButton'];
+    // const loginRoutes = ['Login', 'Signup', 'Confirm', ]
     const [check, setCheck] = React.useState('AddFriends');
     const [checkzer, setCheckzer] = React.useState(true);
     return (

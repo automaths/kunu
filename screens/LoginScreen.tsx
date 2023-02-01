@@ -21,7 +21,7 @@ function LoginScreen() {
             console.log('the token sent back at the sign in is ');
             console.log(token);
             if (token !== null)
-                navigation.navigate('Welcome', {coucou: 'coucou'});
+                navigation.reset('AddFriends', {coucou: 'coucou'});
             //   authCtx.authenticate(token);
         } catch (error) {
             Alert.alert(

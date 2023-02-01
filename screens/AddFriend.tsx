@@ -12,8 +12,11 @@ import { GlobalStyles } from '../constants/Styles';
 import RenderIncomingInvitations from '../components/RenderRequestsSent';
 import RenderRequestsSent from '../components/RenderRequestsSent';
 import RenderPendingInvitations from '../components/RenderPendingInvitations';
+import { Auth } from 'aws-amplify';
+import { useNavigation } from '@react-navigation/native';
 
 const AddFriends = () => {
+    const navigation = useNavigation();
     const [searchPhrase, setSearchPhrase] = useState('');
     const [clicked, setClicked] = useState(false);
     const [demands, setDemands] = useState([
@@ -30,6 +33,30 @@ const AddFriends = () => {
     ]);
 
     useEffect(() => {
+        async function ionViewCanEnter() {
+            try {
+                const test = await Auth.currentUserInfo();
+                console.log('el testoune is');
+                console.log(test);
+                if (test.attributes === undefined)
+                {
+                    console.log('the function returns false');
+                    navigation.navigate('Login', {coucou: 'coucou'});
+                    return false;
+                }
+                console.log('the function returns true');
+                return true;
+            } catch {
+                console.log('the function returns false');
+                navigation.navigate('Login', {coucou: 'coucou'});
+                return false;
+            }
+        }
+        ionViewCanEnter().then((result) => {
+            console.log(`el resulto is `);
+            console.log(result);
+            result ? console.log('user authenticated') : navigation.navigate('Login', {coucou: 'coucou'})
+        });
         setDemands(DEMANDS);
         setRequests(REQUESTS);
     }, [false]);
