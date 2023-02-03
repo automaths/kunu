@@ -112,7 +112,7 @@ const BottomTabs = createBottomTabNavigator();
 function BottomTabNavigator() {
     // const colorScheme = useColorScheme();
     const socialRoutes = ['Social'];
-    const loginRoutes = ['Login', 'Signup', 'Confirm', 'Welcome', 'StartButton'];
+    // const loginRoutes = ['Login', 'Signup', 'Confirm', 'Welcome', 'StartButton'];
     // const loginRoutes = ['Login', 'Signup', 'Confirm', ]
     const [check, setCheck] = React.useState('AddFriends');
     const [checkzer, setCheckzer] = React.useState(true);

@@ -5,6 +5,7 @@ import {
     SafeAreaView,
     View,
     FlatList,
+    Image,
 } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import { DEMANDS, REQUESTS } from '../data/dummy-data';
@@ -32,6 +33,9 @@ const AddFriends = () => {
         },
     ]);
 
+    const [checkAuth, setCheckAuth] = useState(false);
+
+
     useEffect(() => {
         async function ionViewCanEnter() {
             try {
@@ -52,91 +56,98 @@ const AddFriends = () => {
                 return false;
             }
         }
+        const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
+        const wait = async () => {
+            await delay(5000);
+            setCheckAuth(true);
+        }
         ionViewCanEnter().then((result) => {
             console.log(`el resulto is `);
             console.log(result);
             result ? console.log('user authenticated') : navigation.navigate('Login', {coucou: 'coucou'})
         });
+        wait();
         setDemands(DEMANDS);
         setRequests(REQUESTS);
     }, [false]);
 
     return (
         <SafeAreaView style={styles.root}>
+        {
+            checkAuth 
+            ?
+            <>
             <SearchBar
-                searchPhrase={searchPhrase}
-                setSearchPhrase={setSearchPhrase}
-                clicked={clicked}
-                setClicked={setClicked}
-                placeholder={'Search Kunuer'}
-            />
-            <View style={styles.invitationContainer}>
-                <Text
-                    style={{
-                        fontSize: 25,
-                        fontWeight: 'bold',
-                        marginBottom: 15,
-                    }}
-                >
-                    Pending Invitations
-                </Text>
-                <FlatList
-                    data={demands}
-                    renderItem={(item) => {
-                        return (
-                            <RenderPendingInvitations
-                                item={item}
-                                demands={demands}
-                                onTouch={() => {
-                                    {
-                                        setDemands(
-                                            demands.filter(
-                                                (request) =>
-                                                    request.id !== item.item.id,
-                                            ),
-                                        );
-                                    }
+                        searchPhrase={searchPhrase}
+                        setSearchPhrase={setSearchPhrase}
+                        clicked={clicked}
+                        setClicked={setClicked}
+                        placeholder={'Search Kunuer'} /><View style={styles.invitationContainer}>
+                            <Text
+                                style={{
+                                    fontSize: 25,
+                                    fontWeight: 'bold',
+                                    marginBottom: 15,
                                 }}
-                            />
-                        );
-                    }}
-                    keyExtractor={(item) => item.id}
-                />
-            </View>
-            <View style={styles.invitationContainer}>
-                <Text
-                    style={{
-                        fontSize: 25,
-                        fontWeight: 'bold',
-                        marginBottom: 15,
-                    }}
-                >
-                    Requests Sent
-                </Text>
-                <FlatList
-                    data={requests}
-                    extraData={requests}
-                    renderItem={(item) => {
-                        return (
-                            <RenderRequestsSent
-                                item={item}
-                                requests={requests}
-                                onTouch={() => {
-                                    {
-                                        setRequests(
-                                            requests.filter(
-                                                (request) =>
-                                                    request.id !== item.item.id,
-                                            ),
-                                        );
-                                    }
+                            >
+                                Pending Invitations
+                            </Text>
+                            <FlatList
+                                data={demands}
+                                renderItem={(item) => {
+                                    return (
+                                        <RenderPendingInvitations
+                                            item={item}
+                                            demands={demands}
+                                            onTouch={() => {
+                                                {
+                                                    setDemands(
+                                                        demands.filter(
+                                                            (request) => request.id !== item.item.id
+                                                        )
+                                                    );
+                                                }
+                                            } } />
+                                    );
+                                } }
+                                keyExtractor={(item) => item.id} />
+                        </View><View style={styles.invitationContainer}>
+                            <Text
+                                style={{
+                                    fontSize: 25,
+                                    fontWeight: 'bold',
+                                    marginBottom: 15,
                                 }}
-                            />
-                        );
-                    }}
-                    keyExtractor={(item) => item.id}
-                />
+                            >
+                                Requests Sent
+                            </Text>
+                            <FlatList
+                                data={requests}
+                                extraData={requests}
+                                renderItem={(item) => {
+                                    return (
+                                        <RenderRequestsSent
+                                            item={item}
+                                            requests={requests}
+                                            onTouch={() => {
+                                                {
+                                                    setRequests(
+                                                        requests.filter(
+                                                            (request) => request.id !== item.item.id
+                                                        )
+                                                    );
+                                                }
+                                            } } />
+                                    );
+                                } }
+                                keyExtractor={(item) => item.id} />
+                        </View>
+                        </>
+            : 
+            <View style={{flex: 1,alignItems:'center', justifyContent: 'center', backgroundColor: 'white'}}>
+                <Image source={require('../data/resize_waiting.gif')} style={{maxWidth: '100%', alignItems:'center', justifyContent: 'center'}} />
             </View>
+        }
         </SafeAreaView>
     );
 };
@@ -144,7 +155,7 @@ const AddFriends = () => {
 export default AddFriends;
 
 const styles = StyleSheet.create({
-    root: {},
+    root: {flex: 1},
     invitationContainer: {
         margin: '3%',
     },
