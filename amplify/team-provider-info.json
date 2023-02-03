@@ -15,6 +15,9 @@
       "auth": {
         "Kunu": {},
         "kunu63fd9f4b": {}
+      },
+      "storage": {
+        "s3kunustorage8f710ee0": {}
       }
     }
   }

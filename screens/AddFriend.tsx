@@ -15,6 +15,11 @@ import RenderRequestsSent from '../components/RenderRequestsSent';
 import RenderPendingInvitations from '../components/RenderPendingInvitations';
 import { Auth } from 'aws-amplify';
 import { useNavigation } from '@react-navigation/native';
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { DataStore } from '@aws-amplify/datastore';
+import { Users } from '../models';
+import { User } from '../models';
+import { Members } from '../models';
 
 const AddFriends = () => {
     const navigation = useNavigation();
@@ -37,22 +42,90 @@ const AddFriends = () => {
 
 
     useEffect(() => {
+        async function checkDatabase(){
+            try {
+                const check = await DataStore.query(Members);
+                if (check.length === 0)
+                {
+                    await DataStore.save(
+                        new Users({
+                            "user_list": []
+                        })
+                    );
+                }
+            } catch (err) {
+                console.log('error while checking database');
+                return null;
+            }
+        }
+
+        async function fetchUsers() {
+            try {
+                const models = await DataStore.query(Members);
+                console.log(models);
+                return models;
+            } catch (err) {
+                console.log('error fetching users');
+                return null;
+            }
+        }
+
+        async function addUser(users:any, user: any) {
+            try {
+                console.log('adding new user mamen');
+                console.log(user);
+                const userzer = new Members ({
+                    id: user.id,
+                    email: user.attributes.email,
+                    family_name: user.attributes.family_name,
+                    given_name: user.attributes.given_name,
+                    sub: user.attributes.sub,
+                    username: user.username,
+                })
+                console.log('the model userzer is');
+                console.log(userzer);
+                // const new_database = new Users({
+                //     "user_list": [userzer]
+                // });
+                await DataStore.save(userzer);
+            } catch (err) {
+                console.log('error creating user:', err);
+            }
+        }
+
         async function ionViewCanEnter() {
             try {
                 const test = await Auth.currentUserInfo();
                 console.log('el testoune is');
                 console.log(test);
-                if (test.attributes === undefined)
-                {
+                if (test.attributes === undefined) {
                     console.log('the function returns false');
-                    navigation.navigate('Login', {coucou: 'coucou'});
+                    navigation.navigate('Login', { coucou: 'coucou' });
                     return false;
                 }
+                const isRegistered = fetchUsers().then((result) => {
+                    console.log('the result of the fetch of users is: ');
+                    console.log(result);
+                    console.log(`the length of the result is ${result?.length}`);
+                    if (result === null)
+                        console.log('the result of fetching in null nul')
+                    else if (result[0].length === 0)
+                    {
+                        console.log('adding a new user brow nothing in the list');
+                        addUser(result, test);
+                    }
+                    // else if (result[0]?.user_list?.length > 0)
+                    // {
+
+                    // }
+                });
+                // if (isRegistered === null) addUser(test);
+
                 console.log('the function returns true');
                 return true;
             } catch {
                 console.log('the function returns false');
-                navigation.navigate('Login', {coucou: 'coucou'});
+                navigation.navigate('Login', { coucou: 'coucou' });
                 return false;
             }
         }
@@ -61,6 +134,7 @@ const AddFriends = () => {
             await delay(5000);
             setCheckAuth(true);
         }
+        checkDatabase();
         ionViewCanEnter().then((result) => {
             console.log(`el resulto is `);
             console.log(result);
