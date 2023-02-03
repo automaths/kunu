@@ -1,3 +1,12 @@
+type Members @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  email: String!
+  family_name: String!
+  given_name: String!
+  sub: String!
+  username: String!
+}
+
 type User {
   id: String!
   email: String!

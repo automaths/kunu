@@ -45,7 +45,7 @@ function ConfirmScreen(props: {route:any}) {
     }
 
     return (
-        <View style={{flex:1}}>
+        <View style={{flex:1, backgroundColor:'white'}}>
             <View style={{flex:1}}>
                 <Input
                     label="Enter confirmation code"

@@ -10,15 +10,11 @@ import {
 import SearchBar from '../components/SearchBar';
 import { DEMANDS, REQUESTS } from '../data/dummy-data';
 import { GlobalStyles } from '../constants/Styles';
-import RenderIncomingInvitations from '../components/RenderRequestsSent';
 import RenderRequestsSent from '../components/RenderRequestsSent';
 import RenderPendingInvitations from '../components/RenderPendingInvitations';
 import { Auth } from 'aws-amplify';
 import { useNavigation } from '@react-navigation/native';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { DataStore } from '@aws-amplify/datastore';
-import { Users } from '../models';
-import { User } from '../models';
 import { Members } from '../models';
 
 const AddFriends = () => {
@@ -42,89 +38,33 @@ const AddFriends = () => {
 
 
     useEffect(() => {
-        async function checkDatabase(){
-            try {
-                const check = await DataStore.query(Members);
-                if (check.length === 0)
-                {
-                    await DataStore.save(
-                        new Users({
-                            "user_list": []
-                        })
-                    );
-                }
-            } catch (err) {
-                console.log('error while checking database');
-                return null;
-            }
-        }
-
-        async function fetchUsers() {
-            try {
-                const models = await DataStore.query(Members);
-                console.log(models);
-                return models;
-            } catch (err) {
-                console.log('error fetching users');
-                return null;
-            }
-        }
-
-        async function addUser(users:any, user: any) {
-            try {
-                console.log('adding new user mamen');
-                console.log(user);
-                const userzer = new Members ({
-                    id: user.id,
-                    email: user.attributes.email,
-                    family_name: user.attributes.family_name,
-                    given_name: user.attributes.given_name,
-                    sub: user.attributes.sub,
-                    username: user.username,
-                })
-                console.log('the model userzer is');
-                console.log(userzer);
-                // const new_database = new Users({
-                //     "user_list": [userzer]
-                // });
-                await DataStore.save(userzer);
-            } catch (err) {
-                console.log('error creating user:', err);
-            }
-        }
-
         async function ionViewCanEnter() {
             try {
                 const test = await Auth.currentUserInfo();
                 console.log('el testoune is');
                 console.log(test);
                 if (test.attributes === undefined) {
-                    console.log('the function returns false');
+                    console.log('the user is not authenticated');
                     navigation.navigate('Login', { coucou: 'coucou' });
                     return false;
                 }
-                const isRegistered = fetchUsers().then((result) => {
-                    console.log('the result of the fetch of users is: ');
-                    console.log(result);
-                    console.log(`the length of the result is ${result?.length}`);
-                    if (result === null)
-                        console.log('the result of fetching in null nul')
-                    else if (result[0].length === 0)
-                    {
-                        console.log('adding a new user brow nothing in the list');
-                        addUser(result, test);
-                    }
-                    // else if (result[0]?.user_list?.length > 0)
-                    // {
-
-                    // }
-                });
-                // if (isRegistered === null) addUser(test);
-
-                console.log('the function returns true');
+                const searchMember = await DataStore.query(Members, member => member.email.contains(test.attributes.email));
+                if (searchMember.length === 0)
+                {
+                    console.log('the user has not been found, creating user in db');
+                    await DataStore.save(new Members ({
+                        id: test.id,
+                        email: test.attributes.email,
+                        family_name: test.attributes.family_name,
+                        given_name: test.attributes.given_name,
+                        sub: test.attributes.sub,
+                        username: test.username,
+                    }));
+                }
+                console.log('the user is authenticated');
                 return true;
             } catch {
-                console.log('the function returns false');
+                console.log('exception caught during ionViewCanEnter');
                 navigation.navigate('Login', { coucou: 'coucou' });
                 return false;
             }
@@ -134,11 +74,8 @@ const AddFriends = () => {
             await delay(5000);
             setCheckAuth(true);
         }
-        checkDatabase();
         ionViewCanEnter().then((result) => {
-            console.log(`el resulto is `);
-            console.log(result);
-            result ? console.log('user authenticated') : navigation.navigate('Login', {coucou: 'coucou'})
+            console.log('the user check has been done');
         });
         wait();
         setDemands(DEMANDS);
@@ -229,7 +166,7 @@ const AddFriends = () => {
 export default AddFriends;
 
 const styles = StyleSheet.create({
-    root: {flex: 1},
+    root: {flex: 1, backgroundColor: 'white'},
     invitationContainer: {
         margin: '3%',
     },

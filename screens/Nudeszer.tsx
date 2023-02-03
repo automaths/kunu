@@ -20,6 +20,7 @@ const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     base: {
         flex: 1,
+        backgroundColor: 'white'
     },
     topRow: {
         flexDirection: "row",

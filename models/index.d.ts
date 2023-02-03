@@ -26,6 +26,42 @@ export declare type User = LazyLoading extends LazyLoadingDisabled ? EagerUser :
 
 export declare const User: (new (init: ModelInit<User>) => User)
 
+type EagerMembers = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Members, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly email: string;
+  readonly family_name: string;
+  readonly given_name: string;
+  readonly sub: string;
+  readonly username: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyMembers = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Members, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly email: string;
+  readonly family_name: string;
+  readonly given_name: string;
+  readonly sub: string;
+  readonly username: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Members = LazyLoading extends LazyLoadingDisabled ? EagerMembers : LazyMembers
+
+export declare const Members: (new (init: ModelInit<Members>) => Members) & {
+  copyOf(source: Members, mutator: (draft: MutableModel<Members>) => MutableModel<Members> | void): Members;
+}
+
 type EagerUsers = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Users, 'id'>;

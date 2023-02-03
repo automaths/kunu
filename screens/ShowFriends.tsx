@@ -110,7 +110,7 @@ const ShowFriends = () => {
 export default ShowFriends;
 
 const styles = StyleSheet.create({
-    root: {},
+    root: {backgroundColor: 'white'},
     invitationContainer: {
         margin: '3%',
     },
