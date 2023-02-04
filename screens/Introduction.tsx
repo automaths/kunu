@@ -69,7 +69,7 @@ const Introduction = () => {
             <IntroButton
             mode = 'flat'
             style={[styles.button]}
-            onPress={() => navigation.navigate('Login', {coucou:'coucou'})}
+            onPress={() => navigation.navigate('FormUsername', {coucou:'coucou'})}
           >
             <Text>Start</Text>
           </IntroButton>

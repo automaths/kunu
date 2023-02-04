@@ -26,6 +26,12 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import Loading from '../screens/Loading';
 import { useState } from 'react';
 import Introduction from '../screens/Introduction';
+import CarrouLog from '../tmp/CarrouLog';
+import FormUsername from '../screens/FormUsername';
+import FormEmail from '../screens/FormEmail';
+import FormPassword from '../screens/FormPassword';
+import FormAge from '../screens/FormAge';
+import FormConfirm from '../screens/FormConfirm';
 
 export default function Navigation({
     colorScheme,
@@ -56,6 +62,11 @@ export type RootStackParamList = {
     index: undefined;
     Loading: undefined;
     Introduction: undefined;
+    FormUsername: undefined;
+    FormEmail: undefined;
+    FormPassword: undefined;
+    FormAge: undefined;
+    FormConfirm: undefined;
   };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -75,6 +86,11 @@ function RootNavigator() {
             <Stack.Screen name="StartButton" component={StartButton} options={{ headerShown: false }}/> 
             <Stack.Screen name="Loading" component={Loading} options={{ headerShown: false }}/> 
             <Stack.Screen name="Introduction" component={Introduction} options={{ headerShown: false }}/> 
+            <Stack.Screen name="FormUsername" component={FormUsername} options={{ headerShown: false }}/> 
+            <Stack.Screen name="FormEmail" component={FormEmail} options={{ headerShown: false }}/> 
+            <Stack.Screen name="FormPassword" component={FormPassword} options={{ headerShown: false }}/> 
+            <Stack.Screen name="FormAge" component={FormAge} options={{ headerShown: false }}/> 
+            <Stack.Screen name="FormConfirm" component={FormConfirm} options={{ headerShown: false }}/> 
 
             <Stack.Screen
                 name="Settings"
