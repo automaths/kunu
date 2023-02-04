@@ -45,7 +45,7 @@ const AddFriends = () => {
                 console.log(test);
                 if (test.attributes === undefined) {
                     console.log('the user is not authenticated');
-                    navigation.navigate('Login', { coucou: 'coucou' });
+                    navigation.navigate('Introduction', { coucou: 'coucou' });
                     return false;
                 }
                 const searchMember = await DataStore.query(Members, member => member.email.contains(test.attributes.email));
@@ -65,7 +65,7 @@ const AddFriends = () => {
                 return true;
             } catch {
                 console.log('exception caught during ionViewCanEnter');
-                navigation.navigate('Login', { coucou: 'coucou' });
+                navigation.navigate('Introduction', { coucou: 'coucou' });
                 return false;
             }
         }
