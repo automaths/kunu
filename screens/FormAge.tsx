@@ -55,7 +55,7 @@ const FormAge = () => {
                     <Button
                         mode="flat"
                         onPress={() =>
-                            navigation.navigate('FormAge', { username: username })
+                            navigation.navigate('FormEmail', { username: username })
                         }
                     >
                         <Text>Continue</Text>
