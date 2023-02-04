@@ -23,6 +23,8 @@ import ConfirmScreen from '../screens/ConfirmScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import Loading from '../screens/Loading';
+import { useState } from 'react';
 
 export default function Navigation({
     colorScheme,
@@ -51,6 +53,7 @@ export type RootStackParamList = {
     Welcome: undefined;
     StartButton: undefined;
     index: undefined;
+    Loading: undefined;
   };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -68,6 +71,7 @@ function RootNavigator() {
             <Stack.Screen name="Confirm" component={ConfirmScreen} options={{ headerShown: false }}/>
             <Stack.Screen name="Welcome" component={WelcomeScreen}/> 
             <Stack.Screen name="StartButton" component={StartButton} options={{ headerShown: false }}/> 
+            <Stack.Screen name="Loading" component={Loading} options={{ headerShown: false }}/> 
 
             <Stack.Screen
                 name="Settings"
@@ -109,7 +113,12 @@ const BottomTabs = createBottomTabNavigator();
 //             <Stack.Screen name="Welcome" component={WelcomeScreen} /> 
 //             <Stack.Screen name="StartButton"
 
-function BottomTabNavigator() {
+function BottomTabNavigator(props: {route:any}) {
+
+    console.log('from the bottom tab navigator');
+    console.log(props.route);
+    props.route.params = 'coucou';
+
     // const colorScheme = useColorScheme();
     const socialRoutes = ['Social'];
     // const loginRoutes = ['Login', 'Signup', 'Confirm', 'Welcome', 'StartButton'];

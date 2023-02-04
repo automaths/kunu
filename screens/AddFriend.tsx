@@ -69,14 +69,14 @@ const AddFriends = () => {
                 return false;
             }
         }
+        ionViewCanEnter().then((result) => {
+            console.log('the user check has been done');
+        });
         const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
         const wait = async () => {
             await delay(5000);
             setCheckAuth(true);
         }
-        ionViewCanEnter().then((result) => {
-            console.log('the user check has been done');
-        });
         wait();
         setDemands(DEMANDS);
         setRequests(REQUESTS);
@@ -155,8 +155,8 @@ const AddFriends = () => {
                         </View>
                         </>
             : 
-            <View style={{flex: 1,alignItems:'center', justifyContent: 'center', backgroundColor: 'white'}}>
-                <Image source={require('../data/resize_waiting.gif')} style={{maxWidth: '100%', alignItems:'center', justifyContent: 'center'}} />
+            <View style={{flex: 1,alignItems:'center', justifyContent: 'center', backgroundColor: 'black'}}>
+                <Image source={require('../data/loading.gif')} style={{maxWidth: '100%', alignItems:'center', justifyContent: 'center'}} />
             </View>
         }
         </SafeAreaView>
