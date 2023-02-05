@@ -10,8 +10,10 @@ import { useState } from 'react';
 import IntroButton from '../components/UI/IntroButton';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../components/UI/Button';
+import { Auth } from 'aws-amplify';
 
-const FormConfirm = () => {
+
+const FormConfirm = (props: {route:any}) => {
     const [code, setCode] = useState('');
     const navigation = useNavigation();
 
@@ -62,9 +64,17 @@ const FormConfirm = () => {
                 </View>
                 <Button
                     mode="flat"
-                    onPress={() =>
-                        navigation.navigate('AddFriends', { code: code })
-                    }
+                    onPress={async () => {
+                        try {
+                            const token = await Auth.confirmSignUp(props.route.params.email, code, { forceAliasCreation: false });
+                            console.log('confirming');
+                            console.log(token);
+                            navigation.navigate('FormSuccess', {coucou: 'coucou'});
+                        } catch (err) {
+                            console.error(err);
+                            console.log('an error occured while confirming');
+                        }
+                    }}
                 >
                     <Text>Continue</Text>
                 </Button>

@@ -11,7 +11,7 @@ import { useState } from 'react';
 import IntroButton from '../components/UI/IntroButton';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../components/UI/Button';
-import RNPasswordStrengthMeter from 'react-native-password-strength-meter';
+import { createUser } from '../util/auth';
 
 const FormPassword = (props: { route: any }) => {
     const [password, setPassword] = useState('');
@@ -45,9 +45,6 @@ const FormPassword = (props: { route: any }) => {
         return false;
     };
 
-    console.log(`the username is ${props.route.params.username}`);
-    console.log(`the email is ${props.route.params.email}`);
-
     return (
         <View style={styles.content}>
             <TextInput
@@ -62,13 +59,23 @@ const FormPassword = (props: { route: any }) => {
             <Button
                 mode="flat"
                 style={{ position: 'absolute', bottom: 100 }}
-                onPress={() => {
+                onPress={async () => {
                     if (passwordValidation())
-                        navigation.navigate('FormConfirm', {
-                            username: props.route.params.username,
-                            email: props.route.params.email,
-                            password: password,
-                        });
+                    {
+                        try {
+                            const token = await createUser(props.route.params.email, password);
+                            console.log('user created ');
+                            console.log(token);
+                            navigation.navigate('FormConfirm', {
+                                username: props.route.params.username,
+                                email: props.route.params.email,
+                                password: password,
+                            });
+                        } catch (err) {
+                            console.error(err);
+                            console.log('an error occured while creating a user');
+                        }
+                    }
                 }}
             >
                 <Text>Continue</Text>
