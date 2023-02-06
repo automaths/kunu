@@ -1,92 +1,61 @@
-import { useState } from 'react';
-import { View } from '../components/Themed';
+import { useCallback, useState } from 'react';
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+
+// import { Colors } from '../constants/Colors';
 import Button from '../components/UI/Button';
-import { GlobalStyles } from '../constants/Styles';
-import { StyleSheet } from 'react-native';
-import { Dimensions } from 'react-native';
-import { Storage } from "@aws-amplify/storage"
+import ImagePicker from '../components/UI/ImagePicker';
+import { Colors } from '../constants/Colors_js';
 
+function AddPhoto() {
+  const [enteredTitle, setEnteredTitle] = useState('');
+  const [selectedImage, setSelectedImage] = useState();
+  const [pickedLocation, setPickedLocation] = useState();
 
-const AddPhoto = () => {
-            
-    const handleUpload = async () => {
-        const result = await Storage.put("test.txt", "Hello");
-        console.log(result);
-    }
+  function changeTitleHandler(enteredText:any) {
+    setEnteredTitle(enteredText);
+  }
 
-    const handleDownload = async () => {
-        const result = await Storage.get('test.txt', { 
-            level: 'public'
-        });
-        console.log(result);
-    }
+  function takeImageHandler(imageUri:any) {
+    setSelectedImage(imageUri);
+  }
 
-    const handleList = async () => {
-        // Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
-        Storage.list('') // for listing ALL files without prefix, pass '' instead
-                .then(result => console.log(result))
-                .catch(err => console.log(err));
-    }
-
-    const handleRemove = async () => {
-        const result = await Storage.remove('test.txt');
-        console.log(result);
-    }
-
-    return (
-        <View style={styles.base}>
-            <View style={styles.topRow}>
-                <View style={styles.buttonDivider}>
-                    <Button style={styles.topButtons} onPress={handleUpload}>
-                        Upload
-                    </Button>
-                </View>
-                <View style={styles.buttonDivider}>
-                    <Button style={styles.topButtons} onPress={handleDownload}>
-                        Download
-                    </Button>
-                </View>
-                <View style={styles.buttonDivider}>
-                    <Button style={styles.topButtons} onPress={handleList}>
-                        List
-                    </Button>
-                </View>
-                <View style={styles.buttonDivider}>
-                    <Button style={styles.topButtons} onPress={handleRemove}>
-                        Remove
-                    </Button>
-                </View>
-            </View>
-        </View>
-    );
-};
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
-const styles = StyleSheet.create({
-    base: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-    topRow: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    buttonDivider: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    topButtons: {
-        marginTop: 10,
-        backgroundColor: GlobalStyles.colors.primary500,
-        borderRadius: 4,
-        width: windowWidth < 600 ? 120 : 240,
-        height: windowHeight < 1100 ? 40 : 80,
-        marginHorizontal: 8,
-    },
-});
+  return (
+    <ScrollView style={styles.form}>
+      <View>
+        <Text style={styles.label}>Title</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={changeTitleHandler}
+          value={enteredTitle}
+        />
+      </View>
+      <ImagePicker onTakeImage={takeImageHandler} />
+      <View style={{marginTop: 50}}>
+        <Button onPress={() => {console.log('coucou')}}>Send image</Button>
+      </View>
+    </ScrollView>
+  );
+}
 
 export default AddPhoto;
+
+const styles = StyleSheet.create({
+  form: {
+    flex: 1,
+    padding: 24,
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: 4,
+    color: Colors.primary500,
+  },
+  input: {
+    marginVertical: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 8,
+    fontSize: 16,
+    borderBottomColor: Colors.primary800,
+    borderBottomWidth: 2,
+    backgroundColor: Colors.primary100,
+  },
+});

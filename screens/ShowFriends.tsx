@@ -17,6 +17,22 @@ import { Auth } from 'aws-amplify';
 import { Friends, Invitation, Members } from '../models';
 import uuid from 'react-native-uuid';
 import RenderKunuers from '../components/RenderKunuers';
+import { Storage } from "@aws-amplify/storage"
+import { Buffer } from "buffer";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { useNavigation } from '@react-navigation/native';
+
+// await Storage.put("test.txt", "Hello");
+
+// await Storage.get('test.txt', { 
+//     level: 'public'
+// });
+
+// Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
+//         .then(result => console.log(result))
+//         .catch(err => console.log(err));
+
+// await Storage.remove('test.txt');
 
 const ShowFriends = () => {
     const [searchPhrase, setSearchPhrase] = useState('');
@@ -44,6 +60,9 @@ const ShowFriends = () => {
             sub: '',
         },
     });
+
+    const imageToSend = require('../data/new_photo.png');
+    const navigation = useNavigation();
 
     useEffect(() => {
         const test = Auth.currentUserInfo().then((result) => {
@@ -143,30 +162,50 @@ const ShowFriends = () => {
                             <RenderSendTo
                                 item={item}
                                 demands={demands}
-                                onTouch={() => {
-                                    Alert.alert('you want to send a photo');
+                                onTouch={ async () => {
+                                    navigation.navigate('AddPhoto', {coucou: 'coucou'})
                                 }}
                                 onTouchBis={async () => {
                                     DataStore.query(
-                                        Invitation,
-                                        (invit) =>
-                                            invit.inviter.contains(
+                                        Friends,
+                                        (friend) =>
+                                            friend.one.contains(
                                                 item.item
-                                                    .inviter,
+                                                    .one,
                                             ) &&
-                                            invit.invited.contains(
+                                            friend.two.contains(
                                                 item.item
-                                                    .invited,
+                                                    .two,
                                             ),
                                     ).then((result) => {
                                         console.log(
-                                            'trying to delete the pending invit after chosen',
+                                            'trying to delete the friendship',
                                         );
                                         console.log(result);
                                         DataStore.delete(
                                             result[0],
                                         );
-                                })}}
+                                })
+                                DataStore.query(
+                                    Friends,
+                                    (friend) =>
+                                        friend.two.contains(
+                                            item.item
+                                                .one,
+                                        ) &&
+                                        friend.one.contains(
+                                            item.item
+                                                .two,
+                                        ),
+                                ).then((result) => {
+                                    console.log(
+                                        'trying to delete the friendship',
+                                    );
+                                    console.log(result);
+                                    DataStore.delete(
+                                        result[0],
+                                    );
+                            })}}
                             />
                         );
                     }}

@@ -2,11 +2,13 @@
   "resourceName": "s3kunustorage8f710ee0",
   "bucketName": "kunu-storage-8f710ee0",
   "policyUUID": "90f4dcce",
-  "storageAccess": "auth",
-  "guestAccess": [],
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE"
+  ],
   "authAccess": [
-    "CREATE_AND_UPDATE",
     "READ",
+    "CREATE_AND_UPDATE",
     "DELETE"
   ]
 }

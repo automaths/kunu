@@ -3,32 +3,20 @@ import Users from '../models/users';
 import Request from '../models/request';
 import Demand from '../models/demand';
 import Image from '../models/images';
+import Link from '../models/link';
 
-export const CATEGORIES = [
-    new Category('c1', 'Italian', '#f5428d'),
-    new Category('c2', 'Quick & Easy', '#f54242'),
-    new Category('c3', 'Hamburgers', '#f5a442'),
-    new Category('c4', 'German', '#f5d142'),
-    new Category('c5', 'Light & Lovely', '#368dff'),
-    new Category('c6', 'Exotic', '#41d95d'),
-    new Category('c7', 'Breakfast', '#9eecff'),
-    new Category('c8', 'Asian', '#b9ffb0'),
-    new Category('c9', 'French', '#ffc7ff'),
-    new Category('c10', 'Summer', '#47fced'),
-];
-
-export const CATEGORIESZER = [
-    new Category('c2', 'Quick & Easy', '#f54242'),
-    new Category('c6', 'Exotic', '#41d95d'),
-    new Category('c3', 'Hamburgers', '#f5a442'),
-    new Category('c10', 'Summer', '#47fced'),
-    new Category('c8', 'Asian', '#b9ffb0'),
-    new Category('c4', 'German', '#f5d142'),
-    new Category('c7', 'Breakfast', '#9eecff'),
-    new Category('c1', 'Italian', '#f5428d'),
-    new Category('c9', 'French', '#ffc7ff'),
-    new Category('c5', 'Light & Lovely', '#368dff'),
-];
+export const LINKS = [
+    new Link('https://getwallpapers.com/wallpaper/full/5/a/e/74906.jpg'),
+    new Link('https://yesofcorsa.com/wp-content/uploads/2019/05/4K-Landscape-Scenery-Wallpaper-HQ.jpg'),
+    new Link('https://www.4kwallpaperhd.com/wp-content/uploads/2018/06/Colorado-Landscape-nature-4k-wallpaper-3840x2160.jpg'),
+    new Link('https://cdn.wallpapersafari.com/57/34/uJFrUS.jpg'),
+    new Link('https://getwallpapers.com/wallpaper/full/7/7/0/74728.jpg'),
+    new Link('https://www.pixel4k.com/wp-content/uploads/2020/10/forest-landscape-mountain-nature-river-scenic-4k_1602606154.jpg'),
+    new Link('https://getwallpapers.com/wallpaper/full/0/a/0/74794.jpg'),
+    new Link('https://hdqwalls.com/wallpapers/wonderful-landscape-4k-5p.jpg'),
+    new Link('https://getwallpapers.com/wallpaper/full/5/0/6/74883.jpg'),
+    new Link('https://yesofcorsa.com/wp-content/uploads/2019/05/4K-Landscape-Scenery-Image.jpg'),
+]
 
 export const IMAGES = [
     new Image('c1', require('./images/1.jpeg'), 0),

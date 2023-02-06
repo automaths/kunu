@@ -33,6 +33,7 @@ import FormPassword from '../screens/FormPassword';
 import FormAge from '../screens/FormAge';
 import FormConfirm from '../screens/FormConfirm';
 import FormSuccess from '../screens/FormSuccess';
+import ModalScreen from '../tmp/ModalScreen';
 
 export default function Navigation({
     colorScheme,
@@ -69,6 +70,7 @@ export type RootStackParamList = {
     FormAge: undefined;
     FormConfirm: undefined;
     FormSuccess: undefined;
+    AddPhoto: undefined;
   };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -85,6 +87,7 @@ function RootNavigator() {
             <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }}/>
             <Stack.Screen name="Confirm" component={ConfirmScreen} options={{ headerShown: false }}/>
             <Stack.Screen name="Welcome" component={WelcomeScreen}/> 
+            <Stack.Screen name="AddPhoto" component={AddPhoto} options={{ presentation: 'modal' }}/> 
             <Stack.Screen name="StartButton" component={StartButton} options={{ headerShown: false }}/> 
             <Stack.Screen name="Loading" component={Loading} options={{ headerShown: false }}/> 
             <Stack.Screen name="Introduction" component={Introduction} options={{ headerShown: false }}/> 

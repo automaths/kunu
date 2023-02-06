@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { GlobalStyles } from "../constants/Styles";
 
-const RenderSendTo = (props: {item:any, demands: any, onTouch: any}) => {
+const RenderSendTo = (props: {item:any, demands: any, onTouch: any, onTouchBis: any}) => {
 
     return (
         <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -16,7 +16,7 @@ const RenderSendTo = (props: {item:any, demands: any, onTouch: any}) => {
             <View style={styles.expenseItem}>
                 <View style={{ marginBottom: 8, marginRight: 15 }}>
                     <Pressable
-                        onPress={props.onTouch}
+                        onPress={() => {props.onTouchBis()}}
                         style={({ pressed }) => pressed && styles.pressed}
                     >
                         <View
@@ -35,9 +35,7 @@ const RenderSendTo = (props: {item:any, demands: any, onTouch: any}) => {
                 </View>
                 <View style={{ marginRight: 8 }}>
                 <Pressable
-                        onPress={() => {
-                            Alert.alert('you asked the preview of the incoming photo');
-                        }}
+                        onPress={() => {props.onTouch()}}
                         style={({ pressed }) => pressed && styles.pressed}
                     >
                         <View
