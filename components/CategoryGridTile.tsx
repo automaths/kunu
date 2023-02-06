@@ -2,6 +2,7 @@ import { Pressable, View, StyleSheet, Platform, Image } from 'react-native';
 import { GlobalStyles } from '../constants/Styles';
 
 function CategoryGridTile(props: any) {
+    let httpUrl = { uri: props.image }
     return (
         <View style={styles.gridItem}>
             <Pressable
@@ -14,7 +15,7 @@ function CategoryGridTile(props: any) {
                 onLongPress={props.onLongPress}
             >
                 <Image
-                    source={props.image}
+                    source={httpUrl}
                     style={{ width: '100%', height: '100%',}}
                 />
             </Pressable>

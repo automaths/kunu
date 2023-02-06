@@ -1,35 +1,55 @@
 import { ActionSheetIOS, FlatList } from 'react-native';
 import CategoryGridTile from '../components/CategoryGridTile';
-import { IMAGES } from '../data/dummy-data';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
+import { Auth } from 'aws-amplify';
+import { DataStore } from '@aws-amplify/datastore';
+import { ValidatedPhotos } from '../models';
+import uuid from 'react-native-uuid';
 
 function IncomingPhotosZer() {
     const navigation = useNavigation();
 
     const [images, setImages] = useState([
         {
-            id: '',
-            image: require('../data/images/1.jpeg'),
-            index: 0,
+            sender: '',
+            receiver: '',
+            link: '',
+            title: '',
         },
     ]);
 
+    const [user, setUser] = useState({
+        attributes: {
+            sub: '',
+        },
+    });
+
     useEffect(() => {
-        setImages(IMAGES);
+        const test = Auth.currentUserInfo().then((result:any) => {
+            console.log('setting up the user');
+            console.log(result);
+            setUser(result);
+            DataStore.query(ValidatedPhotos, (photo:any) => photo.receiver.contains(result.attributes.sub))
+                .then((result:any) => {
+                    console.log('fetching the images gives: ');
+                    console.log(result);
+                    setImages(result);
+                })
+        });
     }, [false]);
 
     return (
         <FlatList
             data={images}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => uuid.v4().toString()}
             renderItem={(item) => {
                 return (
                     <CategoryGridTile
-                        image={item.item.image}
+                        image={item.item.link}
                         onPress={() => {
                             navigation.navigate('SlidingView', {
-                                image: item.item.image,
+                                image: item.item.link,
                             });
                         }}
                         onLongPress={() => {

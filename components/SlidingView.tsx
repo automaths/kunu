@@ -1,6 +1,7 @@
 import { View, Image, Dimensions } from 'react-native';
 
 const SlidingView = (props: {route:any}) => {
+    let httpUrl = {uri : props.route.params.image}
     return (
         <View style={{ flex: 1 }}>
             {/* <Carousel
@@ -9,7 +10,7 @@ const SlidingView = (props: {route:any}) => {
                 items={[props.route.params.images]}
                 index={props.route.params.index}
             /> */}
-            <Image source={props.route.params.image} style = {{height: 500, width: Dimensions.get('window').width, marginTop: '30%'}} />
+            <Image source={httpUrl} style = {{height: 500, width: Dimensions.get('window').width, marginTop: '30%'}} />
         </View>
     );
 };
