@@ -11,11 +11,18 @@ import IntroButton from '../components/UI/IntroButton';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../components/UI/Button';
 import { Auth } from 'aws-amplify';
+import { DataStore } from '@aws-amplify/datastore';
+import { Members } from '../models';
 
 
 const FormConfirm = (props: {route:any}) => {
     const [code, setCode] = useState('');
     const navigation = useNavigation();
+
+    const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
+    const wait = async () => {
+        await delay(5000);
+    }
 
     return (
         <View style={styles.content}>
@@ -69,6 +76,16 @@ const FormConfirm = (props: {route:any}) => {
                             const token = await Auth.confirmSignUp(props.route.params.email, code, { forceAliasCreation: false });
                             console.log('confirming');
                             console.log(token);
+                            await wait();
+                            const test = await Auth.currentUserInfo();
+                            await DataStore.save(new Members ({
+                                id: test.id,
+                                email: test.attributes.email,
+                                family_name: test.attributes.family_name,
+                                given_name: test.attributes.given_name,
+                                sub: test.attributes.sub,
+                                username: test.username,
+                            }));
                             navigation.navigate('FormSuccess', {coucou: 'coucou'});
                         } catch (err) {
                             console.error(err);

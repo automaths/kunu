@@ -6,6 +6,7 @@ const RenderPendingInvitations = (props: {
     item: any;
     demands: any;
     onTouch: any;
+    onTouchBis: any;
 }) => {
     return (
         <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -17,7 +18,7 @@ const RenderPendingInvitations = (props: {
                         fontSize: 15,
                     }}
                 >
-                    {props.item.item.name}
+                    {props.item.item.inviter}
                 </Text>
             </Pressable>
             <View style={styles.expenseItem}>
@@ -30,7 +31,7 @@ const RenderPendingInvitations = (props: {
                     <Pressable
                         onPress={() => {
                             Alert.alert('you have refused the incoming invitation');
-                            props.onTouch();
+                            props.onTouchBis();
                         }}
                         style={({ pressed }) => pressed && styles.pressed}
                     >

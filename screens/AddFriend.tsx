@@ -15,7 +15,9 @@ import RenderPendingInvitations from '../components/RenderPendingInvitations';
 import { Auth } from 'aws-amplify';
 import { useNavigation } from '@react-navigation/native';
 import { DataStore } from '@aws-amplify/datastore';
-import { Members } from '../models';
+import { Members, Invitation, Friends } from '../models';
+import RenderKunuers from '../components/RenderKunuers';
+import uuid from 'react-native-uuid';
 
 const AddFriends = () => {
     const navigation = useNavigation();
@@ -23,24 +25,35 @@ const AddFriends = () => {
     const [clicked, setClicked] = useState(false);
     const [demands, setDemands] = useState([
         {
-            id: '',
-            name: '',
+            inviter: '',
+            invited: '',
         },
     ]);
     const [requests, setRequests] = useState([
         {
-            id: '',
-            name: '',
+            inviter: '',
+            invited: '',
         },
     ]);
 
-    const [checkAuth, setCheckAuth] = useState(false);
-
+    const [kunuers, setKunuers] = useState([
+        {
+            given_name: '',
+            sub: '',
+        },
+    ]);
+    const [user, setUser] = useState({
+        attributes: {
+            sub: '',
+        },
+    });
 
     useEffect(() => {
         async function ionViewCanEnter() {
             try {
                 const test = await Auth.currentUserInfo();
+                console.log('setting up the user');
+                setUser(test);
                 console.log('el testoune is');
                 console.log(test);
                 if (test.attributes === undefined) {
@@ -48,18 +61,23 @@ const AddFriends = () => {
                     navigation.navigate('Introduction', { coucou: 'coucou' });
                     return false;
                 }
-                const searchMember = await DataStore.query(Members, member => member.email.contains(test.attributes.email));
-                if (searchMember.length === 0)
-                {
-                    console.log('the user has not been found, creating user in db');
-                    await DataStore.save(new Members ({
-                        id: test.id,
-                        email: test.attributes.email,
-                        family_name: test.attributes.family_name,
-                        given_name: test.attributes.given_name,
-                        sub: test.attributes.sub,
-                        username: test.username,
-                    }));
+                const searchMember = await DataStore.query(Members, (member) =>
+                    member.email.contains(test.attributes.email),
+                );
+                if (searchMember.length === 0) {
+                    console.log(
+                        'the user has not been found, creating user in db',
+                    );
+                    await DataStore.save(
+                        new Members({
+                            id: test.id,
+                            email: test.attributes.email,
+                            family_name: test.attributes.family_name,
+                            given_name: test.attributes.given_name,
+                            sub: test.attributes.sub,
+                            username: test.username,
+                        }),
+                    );
                 }
                 console.log('the user is authenticated');
                 return true;
@@ -72,28 +90,91 @@ const AddFriends = () => {
         ionViewCanEnter().then((result) => {
             console.log('the user check has been done');
         });
-        const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
-        const wait = async () => {
-            await delay(5000);
-            setCheckAuth(true);
-        }
-        wait();
-        setDemands(DEMANDS);
-        setRequests(REQUESTS);
+        DataStore.query(Members).then((result) => {
+            console.log('the list of all kunuers is: ');
+            console.log(result);
+            setKunuers(result);
+        });
+        Auth.currentUserInfo().then((result) => {
+            console.log(
+                `the sub searched in contain is ${result.attributes.sub}`,
+            );
+            console.log(result.attributes.sub);
+
+            DataStore.query(Invitation, (invit) =>
+                invit.invited.contains(result.attributes.sub),
+            ).then((result) => {
+                console.log('the demands fetched are: ');
+                console.log(result);
+                setDemands(result);
+            });
+            DataStore.query(Invitation, (invit) =>
+                invit.inviter.contains(result.attributes.sub),
+            ).then((result) => {
+                console.log('the requests fetched are: ');
+                console.log(result);
+                setRequests(result);
+            });
+        });
     }, [false]);
 
     return (
         <SafeAreaView style={styles.root}>
-        {
-            checkAuth 
-            ?
             <>
-            <SearchBar
-                        searchPhrase={searchPhrase}
-                        setSearchPhrase={setSearchPhrase}
-                        clicked={clicked}
-                        setClicked={setClicked}
-                        placeholder={'Search Kunuer'} /><View style={styles.invitationContainer}>
+                <SearchBar
+                    searchPhrase={searchPhrase}
+                    setSearchPhrase={setSearchPhrase}
+                    clicked={clicked}
+                    setClicked={setClicked}
+                    placeholder={'Search Kunuer'}
+                />
+                {clicked ? (
+                    <View style={styles.invitationContainer}>
+                        <Text
+                            style={{
+                                fontSize: 25,
+                                fontWeight: 'bold',
+                                marginBottom: 15,
+                            }}
+                        >
+                            Add Kunuer
+                        </Text>
+                        <FlatList
+                            data={kunuers.filter(
+                                (kunuer) =>
+                                    kunuer.given_name.includes(searchPhrase) &&
+                                    kunuer.sub !== user.attributes.sub,
+                            )}
+                            renderItem={(item) => {
+                                return (
+                                    <RenderKunuers
+                                        item={item}
+                                        demands={kunuers.filter((kunuer) =>
+                                            kunuer.given_name.includes(
+                                                searchPhrase,
+                                            ),
+                                        )}
+                                        user={user}
+                                        onTouch={async () => {
+                                            {
+                                                await DataStore.save(
+                                                    new Invitation({
+                                                        inviter:
+                                                            user.attributes.sub,
+                                                        invited: item.item.sub,
+                                                    }),
+                                                );
+                                            }
+                                        }}
+                                    />
+                                );
+                            }}
+                            keyExtractor={(item) => item.sub}
+                        />
+                    </View>
+                ) : (
+                    <>
+                        <View style={styles.invitationContainer}>
                             <Text
                                 style={{
                                     fontSize: 25,
@@ -110,19 +191,93 @@ const AddFriends = () => {
                                         <RenderPendingInvitations
                                             item={item}
                                             demands={demands}
-                                            onTouch={() => {
+                                            onTouch={async () => {
                                                 {
                                                     setDemands(
                                                         demands.filter(
-                                                            (request) => request.id !== item.item.id
-                                                        )
+                                                            (request) =>
+                                                                request.inviter !==
+                                                                item.item
+                                                                    .inviter,
+                                                        ),
                                                     );
+                                                    await DataStore.save(
+                                                        new Friends({
+                                                            one: item.item
+                                                                .inviter,
+                                                            two: item.item
+                                                                .invited,
+                                                        }),
+                                                    );
+                                                    await DataStore.save(
+                                                        new Friends({
+                                                            one: item.item
+                                                                .invited,
+                                                            two: item.item
+                                                                .inviter,
+                                                        }),
+                                                    );
+                                                    DataStore.query(
+                                                        Invitation,
+                                                        (invit) =>
+                                                            invit.inviter.contains(
+                                                                item.item
+                                                                    .inviter,
+                                                            ) &&
+                                                            invit.invited.contains(
+                                                                item.item
+                                                                    .invited,
+                                                            ),
+                                                    ).then((result) => {
+                                                        console.log(
+                                                            'trying to delete the pending invit after chosen',
+                                                        );
+                                                        console.log(result);
+                                                        DataStore.delete(
+                                                            result[0],
+                                                        );
+                                                    });
                                                 }
-                                            } } />
+                                            }}
+                                            onTouchBis={async () => {
+                                                    {
+                                                        setDemands(
+                                                            demands.filter(
+                                                                (request) =>
+                                                                    request.inviter !==
+                                                                    item.item
+                                                                        .inviter,
+                                                            ),
+                                                        );
+                                                        DataStore.query(
+                                                            Invitation,
+                                                            (invit) =>
+                                                                invit.inviter.contains(
+                                                                    item.item
+                                                                        .inviter,
+                                                                ) &&
+                                                                invit.invited.contains(
+                                                                    item.item
+                                                                        .invited,
+                                                                ),
+                                                        ).then((result) => {
+                                                            console.log(
+                                                                'trying to delete the pending invit after chosen',
+                                                            );
+                                                            console.log(result);
+                                                            DataStore.delete(
+                                                                result[0],
+                                                            );
+                                                        });
+                                                    }
+                                                }}
+                                        />
                                     );
-                                } }
-                                keyExtractor={(item) => item.id} />
-                        </View><View style={styles.invitationContainer}>
+                                }}
+                                keyExtractor={(item) => uuid.v4().toString()}
+                            />
+                        </View>
+                        <View style={styles.invitationContainer}>
                             <Text
                                 style={{
                                     fontSize: 25,
@@ -144,21 +299,43 @@ const AddFriends = () => {
                                                 {
                                                     setRequests(
                                                         requests.filter(
-                                                            (request) => request.id !== item.item.id
-                                                        )
+                                                            (request) =>
+                                                                request.invited !==
+                                                                item.item
+                                                                    .invited,
+                                                        ),
                                                     );
+                                                    DataStore.query(
+                                                        Invitation,
+                                                        (invit) =>
+                                                            invit.inviter.contains(
+                                                                item.item
+                                                                    .inviter,
+                                                            ) &&
+                                                            invit.invited.contains(
+                                                                item.item
+                                                                    .invited,
+                                                            ),
+                                                    ).then((result) => {
+                                                        console.log(
+                                                            'trying to delete the request',
+                                                        );
+                                                        console.log(result);
+                                                        DataStore.delete(
+                                                            result[0],
+                                                        );
+                                                    });
                                                 }
-                                            } } />
+                                            }}
+                                        />
                                     );
-                                } }
-                                keyExtractor={(item) => item.id} />
+                                }}
+                                keyExtractor={(item) => uuid.v4().toString()}
+                            />
                         </View>
-                        </>
-            : 
-            <View style={{flex: 1,alignItems:'center', justifyContent: 'center', backgroundColor: 'black'}}>
-                <Image source={require('../data/loading.gif')} style={{maxWidth: '100%', alignItems:'center', justifyContent: 'center'}} />
-            </View>
-        }
+                    </>
+                )}
+            </>
         </SafeAreaView>
     );
 };
@@ -166,7 +343,7 @@ const AddFriends = () => {
 export default AddFriends;
 
 const styles = StyleSheet.create({
-    root: {flex: 1, backgroundColor: 'white'},
+    root: { flex: 1, backgroundColor: 'white' },
     invitationContainer: {
         margin: '3%',
     },

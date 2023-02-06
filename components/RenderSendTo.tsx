@@ -10,7 +10,7 @@ const RenderSendTo = (props: {item:any, demands: any, onTouch: any}) => {
                 onPress={props.onTouch}
             >
                 <Text style={{ flex: 1, textAlign: 'left', fontSize: 15 }}>
-                    {props.item.item.name}
+                    {props.item.item.two}
                 </Text>
             </Pressable>
             <View style={styles.expenseItem}>
@@ -25,7 +25,31 @@ const RenderSendTo = (props: {item:any, demands: any, onTouch: any}) => {
                                 justifyContent: 'flex-end',
                             }}
                         >
-                            <Ionicons name="camera" size={25} color={GlobalStyles.colors.primary400} />
+                            <Ionicons
+                                name="close-circle"
+                                size={25}
+                                color="red"
+                            />
+                        </View>
+                    </Pressable>
+                </View>
+                <View style={{ marginRight: 8 }}>
+                <Pressable
+                        onPress={() => {
+                            Alert.alert('you asked the preview of the incoming photo');
+                        }}
+                        style={({ pressed }) => pressed && styles.pressed}
+                    >
+                        <View
+                            style={{
+                                justifyContent: 'flex-end',
+                            }}
+                        >
+                            <Ionicons
+                                name="camera"
+                                size={25}
+                                color={GlobalStyles.colors.primary500}
+                            />
                         </View>
                     </Pressable>
                 </View>

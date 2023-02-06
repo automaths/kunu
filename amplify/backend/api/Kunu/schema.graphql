@@ -1,3 +1,15 @@
+type Friends @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  one: String!
+  two: String!
+}
+
+type Invitation @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  inviter: String!
+  invited: String!
+}
+
 type Members @model @auth(rules: [{allow: public}]) {
   id: ID!
   email: String!
@@ -5,19 +17,5 @@ type Members @model @auth(rules: [{allow: public}]) {
   given_name: String!
   sub: String!
   username: String!
-}
-
-type User {
-  id: String!
-  email: String!
-  family_name: String!
-  given_name: String!
-  sub: String!
-  username: String!
-}
-
-type Users @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  user_list: [User]
 }
  

@@ -2,11 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { View, Pressable, Text, StyleSheet, Alert } from 'react-native';
 import { GlobalStyles } from '../constants/Styles';
 
-const RenderRequestsSent = (props: {
-    item: any;
-    requests: any;
-    onTouch: any;
-}) => {
+const RenderKunuers = (props: { item: any; demands: any; onTouch: any, user:any }) => {
     return (
         <View style={{ flex: 1, flexDirection: 'row' }}>
             <Pressable style={({ pressed }) => pressed && styles.pressed}>
@@ -17,7 +13,7 @@ const RenderRequestsSent = (props: {
                         fontSize: 15,
                     }}
                 >
-                    {props.item.item.invited}
+                    {props.item.item.given_name}
                 </Text>
             </Pressable>
             <View style={styles.expenseItem}>
@@ -29,7 +25,9 @@ const RenderRequestsSent = (props: {
                 >
                     <Pressable
                         onPress={() => {
-                            Alert.alert('you have canceled the request sent');
+                            Alert.alert(
+                                'you are sending a friend request invitation',
+                            );
                             props.onTouch();
                         }}
                         style={({ pressed }) => pressed && styles.pressed}
@@ -40,9 +38,9 @@ const RenderRequestsSent = (props: {
                             }}
                         >
                             <Ionicons
-                                name="close-circle"
+                                name="md-add-circle-sharp"
                                 size={25}
-                                color="red"
+                                color="#1daff3"
                             />
                         </View>
                     </Pressable>
@@ -52,7 +50,7 @@ const RenderRequestsSent = (props: {
     );
 };
 
-export default RenderRequestsSent;
+export default RenderKunuers;
 
 const styles = StyleSheet.create({
     root: {},
