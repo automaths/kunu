@@ -6,6 +6,8 @@ const RenderIncomingPhotos = (props: {
     item: any;
     requests: any;
     onTouch: any;
+    onTouchBis: any;
+    onTouchTer: any;
 }) => {
     return (
         <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -29,7 +31,7 @@ const RenderIncomingPhotos = (props: {
                 >
                     <Pressable
                         onPress={() => {
-                            Alert.alert('you asked the preview of the incoming photo');
+                            props.onTouch();
                         }}
                         style={({ pressed }) => pressed && styles.pressed}
                     >
@@ -54,8 +56,7 @@ const RenderIncomingPhotos = (props: {
                 >
                     <Pressable
                         onPress={() => {
-                            Alert.alert('you have refused the incoming photo');
-                            props.onTouch();
+                            props.onTouchBis();
                         }}
                         style={({ pressed }) => pressed && styles.pressed}
                     >
@@ -76,8 +77,7 @@ const RenderIncomingPhotos = (props: {
             <View style={{ marginRight: 8 }}>
                 <Pressable
                     onPress={() => {
-                        Alert.alert('you have accepted the incoming photo');
-                        props.onTouch();
+                        props.onTouchTer();
                     }}
                     style={({ pressed }) => pressed && styles.pressed}
                 >

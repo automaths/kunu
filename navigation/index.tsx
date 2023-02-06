@@ -97,7 +97,6 @@ function RootNavigator() {
             <Stack.Screen name="FormAge" component={FormAge} options={{ headerShown: false }}/> 
             <Stack.Screen name="FormConfirm" component={FormConfirm} options={{ headerShown: false }}/> 
             <Stack.Screen name="FormSuccess" component={FormSuccess} options={{ headerShown: false }}/> 
-
             <Stack.Screen
                 name="Settings"
                 component={Settings}
@@ -180,21 +179,19 @@ function BottomTabNavigator(props: {route:any}) {
                                 setCheckzer(false);
                             }}
                         />
-                        <IconButton
-                            icon={
-                                socialRoutes.includes(route.name)
-                                    ? 'settings'
-                                    : 'add-circle'
-                            }
-                            size={28}
-                            color={tintColor}
-                            onPress={() => {
-                                // eslint-disable-next-line no-unused-expressions
-                                socialRoutes.includes(route.name)
-                                    ? navigation.navigate('Settings')
-                                    : setCheckzer(true);
-                            }}
-                        />
+                        {
+                            socialRoutes.includes(route.name)
+                            ? 
+                                <IconButton
+                                icon={'settings'}
+                                size={28}
+                                color={tintColor}
+                                onPress={() => {
+                                    navigation.navigate('Settings')
+                                }}
+                                />
+                            : <></>
+                        }
                     </View>
                 ),
                 // eslint-disable-next-line no-unused-vars
@@ -226,10 +223,7 @@ function BottomTabNavigator(props: {route:any}) {
             />
             <BottomTabs.Screen
                 name="Photos"
-                component={
-                    checkzer
-                        ? AddPhoto
-                        : check === 'AddFriends'
+                component={check === 'AddFriends'
                             ? Nudes
                             : Nudeszer
                 }

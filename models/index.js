@@ -4,9 +4,11 @@ import { schema } from './schema';
 
 
 
-const { Friends, Invitation, Members } = initSchema(schema);
+const { ValidatedPhotos, IncomingPhotos, Friends, Invitation, Members } = initSchema(schema);
 
 export {
+  ValidatedPhotos,
+  IncomingPhotos,
   Friends,
   Invitation,
   Members

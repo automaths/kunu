@@ -6,6 +6,74 @@ import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
+type EagerValidatedPhotos = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ValidatedPhotos, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly sender: string;
+  readonly receiver: string;
+  readonly link: string;
+  readonly title?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyValidatedPhotos = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ValidatedPhotos, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly sender: string;
+  readonly receiver: string;
+  readonly link: string;
+  readonly title?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type ValidatedPhotos = LazyLoading extends LazyLoadingDisabled ? EagerValidatedPhotos : LazyValidatedPhotos
+
+export declare const ValidatedPhotos: (new (init: ModelInit<ValidatedPhotos>) => ValidatedPhotos) & {
+  copyOf(source: ValidatedPhotos, mutator: (draft: MutableModel<ValidatedPhotos>) => MutableModel<ValidatedPhotos> | void): ValidatedPhotos;
+}
+
+type EagerIncomingPhotos = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<IncomingPhotos, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly sender: string;
+  readonly receiver: string;
+  readonly link: string;
+  readonly title?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyIncomingPhotos = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<IncomingPhotos, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly sender: string;
+  readonly receiver: string;
+  readonly link: string;
+  readonly title?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type IncomingPhotos = LazyLoading extends LazyLoadingDisabled ? EagerIncomingPhotos : LazyIncomingPhotos
+
+export declare const IncomingPhotos: (new (init: ModelInit<IncomingPhotos>) => IncomingPhotos) & {
+  copyOf(source: IncomingPhotos, mutator: (draft: MutableModel<IncomingPhotos>) => MutableModel<IncomingPhotos> | void): IncomingPhotos;
+}
+
 type EagerFriends = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Friends, 'id'>;

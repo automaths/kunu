@@ -1,3 +1,19 @@
+type ValidatedPhotos @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  sender: String!
+  receiver: String!
+  link: String!
+  title: String
+}
+
+type IncomingPhotos @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  sender: String!
+  receiver: String!
+  link: String!
+  title: String
+}
+
 type Friends @model @auth(rules: [{allow: public}]) {
   id: ID!
   one: String!
@@ -17,5 +33,4 @@ type Members @model @auth(rules: [{allow: public}]) {
   given_name: String!
   sub: String!
   username: String!
-}
- 
+} 

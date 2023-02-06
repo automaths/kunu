@@ -5,34 +5,17 @@ import {
     SafeAreaView,
     View,
     FlatList,
-    Alert,
 } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import { DEMANDS, REQUESTS } from '../data/dummy-data';
 import { GlobalStyles } from '../constants/Styles';
 import RenderSendTo from '../components/RenderSendTo';
 import RenderIncomingPhotos from '../components/RenderIncomingPhotos';
 import { DataStore } from '@aws-amplify/datastore';
 import { Auth } from 'aws-amplify';
-import { Friends, Invitation, Members } from '../models';
+import { Friends, Invitation, Members, IncomingPhotos, ValidatedPhotos } from '../models';
 import uuid from 'react-native-uuid';
 import RenderKunuers from '../components/RenderKunuers';
-import { Storage } from "@aws-amplify/storage"
-import { Buffer } from "buffer";
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
-
-// await Storage.put("test.txt", "Hello");
-
-// await Storage.get('test.txt', { 
-//     level: 'public'
-// });
-
-// Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
-//         .then(result => console.log(result))
-//         .catch(err => console.log(err));
-
-// await Storage.remove('test.txt');
 
 const ShowFriends = () => {
     const [searchPhrase, setSearchPhrase] = useState('');
@@ -45,8 +28,10 @@ const ShowFriends = () => {
     ]);
     const [requests, setRequests] = useState([
         {
-            id: '',
-            name: '',
+            sender: '',
+            receiver: '',
+            link: '',
+            title: '',
         },
     ]);
     const [kunuers, setKunuers] = useState([
@@ -87,7 +72,15 @@ const ShowFriends = () => {
                 setDemands(result);
             });
         });
-        setRequests(REQUESTS);
+        Auth.currentUserInfo().then((result) => {
+            DataStore.query(IncomingPhotos, (photo) =>
+                photo.receiver.contains(result.attributes.sub),
+            ).then((result) => {
+                console.log('the photos fetched are: ');
+                console.log(result);
+                setRequests(result);
+            });
+        });
     }, [false]);
 
     return (
@@ -163,7 +156,7 @@ const ShowFriends = () => {
                                 item={item}
                                 demands={demands}
                                 onTouch={ async () => {
-                                    navigation.navigate('AddPhoto', {coucou: 'coucou'})
+                                    navigation.navigate('AddPhoto', {target: item.item.two})
                                 }}
                                 onTouchBis={async () => {
                                     DataStore.query(
@@ -235,10 +228,46 @@ const ShowFriends = () => {
                                         setRequests(
                                             requests.filter(
                                                 (request) =>
-                                                    request.id !== item.item.id,
+                                                    request.sender !== item.item.sender,
                                             ),
-                                        );
+                                        ); 
                                     }
+                                }}
+                                onTouchBis={ async () => {
+                                    setRequests(
+                                        requests.filter(
+                                            (request) =>
+                                                request.sender !== item.item.sender,
+                                        ),
+                                    );
+                                    DataStore.query(IncomingPhotos, (photo) => 
+                                        photo.sender.contains(item.item.sender),
+                                    ).then((result) => {
+                                        console.log('fetch for delete');
+                                        console.log(result[0]);
+                                        DataStore.delete(result[0]);
+                                    })
+                                }}
+                                onTouchTer={() => {
+                                    setRequests(
+                                        requests.filter(
+                                            (request) =>
+                                                request.sender !== item.item.sender,
+                                        ),
+                                    );
+                                    DataStore.query(IncomingPhotos, (photo) => 
+                                        photo.sender.contains(item.item.sender),
+                                    ).then((result) => {
+                                        console.log('fetch for delete');
+                                        console.log(result[0]);
+                                        DataStore.save(new ValidatedPhotos({
+                                            sender: result[0].sender,
+                                            receiver: result[0].receiver,
+                                            link: result[0].link,
+                                            title: result[0].title,
+                                        }));
+                                        DataStore.delete(result[0]);
+                                    })
                                 }}
                             />
                         );
