@@ -73,7 +73,7 @@ const FormConfirm = (props: {route:any}) => {
                     mode="flat"
                     onPress={async () => {
                         try {
-                            const token = await Auth.confirmSignUp(props.route.params.email, code, { forceAliasCreation: false });
+                            const token = await Auth.confirmSignUp(props.route.params.phone, code, { forceAliasCreation: false });
                             console.log('confirming');
                             console.log(token);
                             await wait();

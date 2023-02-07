@@ -1,20 +1,39 @@
 import {
     View,
-    Pressable,
     Text,
-    Image,
     StyleSheet,
     TextInput,
+    Alert,
 } from 'react-native';
 import { useState } from 'react';
 import IntroButton from '../components/UI/IntroButton';
 import { useNavigation } from '@react-navigation/native';
+import { GlobalStyles } from '../constants/Styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation';
-import { GlobalStyles } from '../constants/Styles';
+import { Auth } from 'aws-amplify';
 
-const FormUsername = () => {
-    const [username, setUsername] = useState('');
+// try {
+//     const { user } = await Auth.signUp({ username, password });
+//     console.log(user);
+// } catch (error) {
+//     console.log('error signing up:', error);
+// }
+
+// try {
+//     const user = await Auth.signIn(username, password);
+// } catch (error) {
+//     console.log('error signing in', error);
+// }
+
+// try {
+//     await Auth.signOut();
+// } catch (error) {
+//     console.log('error signing out: ', error);
+// }
+
+const FormNumber = (props: { route: any }) => {
+    const [number, setNumber] = useState('');
     type homeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Root'>;
     const navigation = useNavigation<homeScreenProp>();
 
@@ -27,24 +46,38 @@ const FormUsername = () => {
                 <Text
                     style={styles.subtitle}
                 >
-                    Let's go, what's your name?
+                    Enter your email
                 </Text>
                 <View style={{alignItems: 'center',}}>
                     <TextInput
-                        style={styles.input}
-                        placeholder={'Your name'}
-                        value={username}
-                        onChangeText={setUsername}
-                        autoFocus={true}
+                style={styles.input}
+                placeholder={'Enter email'}
+                value={number}
+                onChangeText={setNumber}
+                autoFocus={true}
+                autoCapitalize="none"
+                autoCorrect={false}
                     />
                 </View>
             </View>
             <View style={styles.buttonsContainer}>
                 <IntroButton
                     style={{ position: 'absolute', bottom: 100 }}
-                    onPress={() =>
-                        navigation.navigate('FormAge', { username: username })
-                    }
+                    onPress={async () => {
+                        try {
+                            const { user } = await Auth.signUp(number, 'password');
+                            console.log('user created ');
+                            console.log(user);
+                            navigation.navigate('FormConfirm', {
+                                username: props.route.params.username,
+                                number: number,
+                            });
+                            navigation.navigate('FormConfirm', { number: number, username: props.route.params.username})
+                        } catch (err) {
+                            console.error(err);
+                            console.log('an error occured while creating a user');
+                        }
+                    }}
                 >
                     <Text>Continue</Text>
                 </IntroButton>
@@ -53,7 +86,7 @@ const FormUsername = () => {
     );
 };
 
-export default FormUsername;
+export default FormNumber;
 
 const styles = StyleSheet.create({
     content: {
@@ -69,15 +102,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: GlobalStyles.colors.primary200,
     },
-    input: {
-        marginTop: '3%',
-        fontSize: 30,
-    },
-    title: {
-        marginTop: 20,
-        fontSize: 25,
-        fontWeight: 'bold',
-    },
     buttonsContainer: {
         flex: 1,
         alignItems: 'center',
@@ -86,6 +110,10 @@ const styles = StyleSheet.create({
         minWidth: '90%',
         position: 'absolute',
         bottom: '8%',
+    },
+    input: {
+        marginTop: '3%',
+        fontSize: 30,
     },
     subtitle: {
         color: 'black',

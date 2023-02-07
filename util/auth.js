@@ -23,16 +23,16 @@ import { Auth } from 'aws-amplify';
 //     userSub: string;
 // }
 
-async function aws_authenticate(mode, email, password) {
+async function aws_authenticate(mode, phone, password) {
     if (mode === 'signUp')
     {
         try {
-            console.log(`When in funciton user email ${email}, password ${password}`);
+            console.log(`When in funciton user phone ${phone}, password ${password}`);
             const { user } = await Auth.signUp({
-                username: email,
-                password: password,
+                username: 'ns.sartral@gmail.com',
+                password: 'Coucou1!',
                 attributes: {
-                    email: email,
+                    phone_number: '+33634162976',
                     given_name: 'Nicolas',
                     family_name: 'Sartral'
                   },
@@ -65,9 +65,9 @@ async function aws_authenticate(mode, email, password) {
     }
 }
 
-export function createUser(email, password) {
-    console.log(`When creating user email ${email}, password ${password}`);
-  return aws_authenticate('signUp', email, password);
+export function createUser(phone, password) {
+    console.log(`When creating user email ${phone}, password ${password}`);
+  return aws_authenticate('signUp', phone, password);
 }
 
 export function login(email, password) {

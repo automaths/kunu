@@ -24,16 +24,13 @@ import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import Loading from '../screens/Loading';
-import { useState } from 'react';
 import Introduction from '../screens/Introduction';
-import CarrouLog from '../tmp/CarrouLog';
 import FormUsername from '../screens/FormUsername';
-import FormEmail from '../screens/FormEmail';
 import FormPassword from '../screens/FormPassword';
 import FormAge from '../screens/FormAge';
 import FormConfirm from '../screens/FormConfirm';
 import FormSuccess from '../screens/FormSuccess';
-import ModalScreen from '../tmp/ModalScreen';
+import FormNumber from '../screens/FormNumber';
 
 export default function Navigation({
     colorScheme,
@@ -51,26 +48,26 @@ export default function Navigation({
 }
 
 export type RootStackParamList = {
-    Root: undefined;
-    Settings: undefined;
-    AddFriends: undefined;
-    ShowFriends: undefined;
-    SlidingView: undefined;
-    Login: undefined;
-    Signup: undefined;
-    Confirm: undefined;
-    Welcome: undefined;
-    StartButton: undefined;
-    index: undefined;
-    Loading: undefined;
-    Introduction: undefined;
-    FormUsername: undefined;
-    FormEmail: undefined;
-    FormPassword: undefined;
-    FormAge: undefined;
-    FormConfirm: undefined;
-    FormSuccess: undefined;
-    AddPhoto: undefined;
+    Root: any;
+    Settings: any;
+    AddFriends: any;
+    ShowFriends: any;
+    SlidingView: any;
+    Login: any;
+    Signup: any;
+    Confirm: any;
+    Welcome: any;
+    StartButton: any;
+    index: any;
+    Loading: any;
+    Introduction: any;
+    FormUsername: any;
+    FormNumber: any;
+    FormPassword: any;
+    FormAge: any;
+    FormConfirm: any;
+    FormSuccess: any;
+    AddPhoto: any;
   };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -92,7 +89,7 @@ function RootNavigator() {
             <Stack.Screen name="Loading" component={Loading} options={{ headerShown: false }}/> 
             <Stack.Screen name="Introduction" component={Introduction} options={{ headerShown: false }}/> 
             <Stack.Screen name="FormUsername" component={FormUsername} options={{ headerShown: false }}/> 
-            <Stack.Screen name="FormEmail" component={FormEmail} options={{ headerShown: false }}/> 
+            <Stack.Screen name="FormNumber" component={FormNumber} options={{ headerShown: false }}/> 
             <Stack.Screen name="FormPassword" component={FormPassword} options={{ headerShown: false }}/> 
             <Stack.Screen name="FormAge" component={FormAge} options={{ headerShown: false }}/> 
             <Stack.Screen name="FormConfirm" component={FormConfirm} options={{ headerShown: false }}/> 

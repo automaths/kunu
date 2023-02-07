@@ -1,75 +1,68 @@
 import {
     View,
-    Pressable,
     Text,
-    Image,
     StyleSheet,
-    TextInput,
     Alert,
 } from 'react-native';
-import { Component, useState } from 'react';
+import { useState } from 'react';
 import IntroButton from '../components/UI/IntroButton';
 import { useNavigation } from '@react-navigation/native';
-import Button from '../components/UI/Button';
 import React from 'react';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import {
+    DateTimePickerEvent,
+} from '@react-native-community/datetimepicker';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation';
+import { GlobalStyles } from '../constants/Styles';
 
-const FormAge = (props: { route:any }) => {
+const FormAge = (props: { route: any }) => {
     const [username, setUsername] = useState('');
-    const navigation = useNavigation();
+    type homeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Root'>;
+    const navigation = useNavigation<homeScreenProp>();
     const [major, setMajor] = useState(false);
 
-    const setDate = (event: DateTimePickerEvent, date: Date) => {
+    const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         const {
-          type,
-          nativeEvent: {timestamp},
+            type,
+            nativeEvent: { timestamp },
         } = event;
         const now = new Date();
-        const days = now.getTime() - date.getTime();
+        const days = now.getTime() - date!.getTime();
         if (Math.floor(days / (1000 * 60 * 60 * 24 * 365)) >= 18)
             setMajor(true);
-        else
-            setMajor(false);
-      };
+        else setMajor(false);
+    };
 
     return (
         <View style={styles.content}>
+            <View style={styles.logoView}>
+                <Text style={styles.logoText}>Kunu</Text>
+            </View>
+            <Text style={styles.subtitle}>{`Hi ${props.route.params.username}, what's your age?`}</Text>
+            <RNDateTimePicker
+                display="spinner"
+                onChange={setDate}
+                value={new Date()}
+                minimumDate={new Date(1930, 0, 1)}
+                maximumDate={new Date()}
+            />
             <Text
-                style={{
-                    color: 'black',
-                    fontSize: 18,
-                    textAlign: 'center',
-                    marginTop: '20%',
-                    marginBottom: '20%'
-                }}
+                style={styles.commentary}
             >
-                What's your age?
+                (We need to make sure you are old enough to use Kunu)
             </Text>
-            <RNDateTimePicker display="spinner" onChange={setDate} value={new Date()} minimumDate={new Date(1930, 0, 1)} maximumDate={new Date()} />
-            <View style={{position: 'absolute', bottom: 100}}>
-                <Text
-                    style={{
-                        color: 'black',
-                        fontSize: 12,
-                        textAlign: 'center',
-                    }}
+            <View style={styles.buttonsContainer}>
+                <IntroButton
+                    style={{ position: 'absolute', bottom: 100 }}
+                    onPress={() =>
+                        navigation.navigate('FormNumber', {
+                            username: props.route.params.username,
+                        })
+                    }
                 >
-                    (We need to make sure you are old enough to use Kunu)
-                </Text>
-                    <Button
-                        mode="flat"
-                        onPress={() =>
-                            {
-                                // if (major)
-                                    navigation.navigate('FormEmail', { username: props.route.params.username })
-                                // else
-                                    // Alert.alert('You must be 18 years old to use Kunu');
-                            }
-                        }
-                    >
-                        <Text>Continue</Text>
-                    </Button>
+                    <Text>Continue</Text>
+                </IntroButton>
             </View>
         </View>
     );
@@ -82,17 +75,33 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
-
     },
-    input: {
-        marginTop: 30,
+    logoView: {
+        marginTop: '12%',
+    },
+    logoText: {
         fontSize: 30,
-        marginLeft: 10,
-        width: '90%',
-    },
-    title: {
-        marginTop: 20,
-        fontSize: 25,
         fontWeight: 'bold',
+        color: GlobalStyles.colors.primary200,
     },
+    buttonsContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        maxHeight: '8%',
+        minWidth: '90%',
+        position: 'absolute',
+        bottom: '8%',
+    },
+    subtitle: {
+        color: 'black',
+        fontSize: 18,
+        textAlign: 'center',
+        marginTop: '10%',
+    },
+    commentary: {
+        color: 'black',
+        fontSize: 12,
+        textAlign: 'center',
+    }
 });
