@@ -1,28 +1,16 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { GlobalStyles } from "../../constants/Styles";
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { GlobalStyles } from '../../constants/Styles';
 
 function IntroButton(props: any) {
     return (
-        <View style={[props.base, props.style]}>
+        <View style={{flex: 1}}>
             <Pressable
                 onPress={props.onPress}
                 style={styles.pressable}
                 // style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
             >
-                <View
-                    style={[
-                        styles.button,
-                        props.mode === "flat" && styles.flat,
-                    ]}
-                >
-                    <Text
-                        style={[
-                            styles.buttonText,
-                            props.mode === "flat" && styles.flatText,
-                        ]}
-                    >
-                        {props.children}
-                    </Text>
+                <View style={styles.button}>
+                    <Text style={styles.buttonText}>{props.children}</Text>
                 </View>
             </Pressable>
         </View>
@@ -41,19 +29,12 @@ const styles = StyleSheet.create({
         borderColor: GlobalStyles.colors.primary50,
         borderWidth: 5,
         padding: 8,
-        backgroundColor: GlobalStyles.colors.primary500,
-    },
-    flat: {
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
     },
     buttonText: {
         flex: 1,
-        color: "white",
-        textAlign: "center",
+        textAlign: 'center',
         justifyContent: 'center',
-        fontSize: 20,
-    },
-    flatText: {
         color: GlobalStyles.colors.primary200,
         fontSize: 30,
     },

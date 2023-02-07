@@ -61,10 +61,10 @@ const FormAge = (props: { route:any }) => {
                         mode="flat"
                         onPress={() =>
                             {
-                                if (major)
+                                // if (major)
                                     navigation.navigate('FormEmail', { username: props.route.params.username })
-                                else
-                                    Alert.alert('You must be 18 years old to use Kunu');
+                                // else
+                                    // Alert.alert('You must be 18 years old to use Kunu');
                             }
                         }
                     >
