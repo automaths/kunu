@@ -3,11 +3,10 @@ import { GlobalStyles } from '../../constants/Styles';
 
 function IntroButton(props: any) {
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, minWidth: '95%'}}>
             <Pressable
                 onPress={props.onPress}
                 style={styles.pressable}
-                // style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
             >
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>{props.children}</Text>
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
         flex: 1,
         borderRadius: 20,
         borderColor: GlobalStyles.colors.primary50,
-        borderWidth: 5,
+        borderWidth: 3,
         padding: 8,
         backgroundColor: 'transparent',
     },
@@ -41,10 +40,4 @@ const styles = StyleSheet.create({
     pressable: {
         flex: 1,
     },
-    // pressed: {
-    //     flex: 1,
-    //     opacity: 0.75,
-    //     backgroundColor: GlobalStyles.colors.primary100,
-    //     borderRadius: 4,
-    // },
 });

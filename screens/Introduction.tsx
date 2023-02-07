@@ -1,4 +1,11 @@
-import { View, Pressable, Text, Image, StyleSheet } from 'react-native';
+import {
+    View,
+    Pressable,
+    Text,
+    Image,
+    StyleSheet,
+    Dimensions,
+} from 'react-native';
 import Carousel, { CarouselData } from 'react-native-intro-carousel';
 import { GlobalStyles } from '../constants/Styles';
 import { useNavigation } from '@react-navigation/native';
@@ -31,6 +38,8 @@ const dataCarousel = [
 const Introduction = () => {
     type homeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Root'>;
     const navigation = useNavigation<homeScreenProp>();
+    const width = Dimensions.get('screen').width;
+    const height = Dimensions.get('screen').height;
 
     return (
         <View style={styles.main}>
@@ -43,34 +52,43 @@ const Introduction = () => {
                 paginationConfig={{
                     color: 'grey',
                     activeColor: GlobalStyles.colors.primary200,
-                    bottomOffset: 200,
+                    bottomOffset: width * 0.25,
                     dotSize: 8,
                 }}
-                renderItem={({ item, index }: {item: CarouselData, index: number}, goToSlide: (slide: number) => void) => (                    
+                renderItem={(
+                    { item, index }: { item: CarouselData; index: number },
+                    goToSlide: (slide: number) => void,
+                ) => (
                     <View style={styles.content}>
-                        <Image
-                            source={item.image}
-                            style={styles.image}
-                            resizeMode="contain"
-                        />
-                        <Text style={styles.titleText}>{item.title}</Text>
-                        <View style={styles.buttonsContainer}>
-                            {index === 2 ? (
-                                <IntroButton
-                                    onPress={() =>
-                                        navigation.navigate('FormUsername')
-                                    }
-                                >
-                                    <Text>Start</Text>
-                                </IntroButton>
-                            ) : (
-                                <IntroButton
-                                    onPress={() => goToSlide(index + 1)}
-                                >
-                                    <Text>Continue</Text>
-                                </IntroButton>
-                            )}
-                        </View>
+                        <Pressable
+                            onPress={() => goToSlide(index + 1)}
+                            style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
+                            // style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
+                        >
+                            <Image
+                                source={item.image}
+                                style={styles.image}
+                                resizeMode="contain"
+                            />
+                            <Text style={styles.titleText}>{item.title}</Text>
+                            <View style={styles.buttonsContainer}>
+                                {index === 2 ? (
+                                    <IntroButton
+                                        onPress={() =>
+                                            navigation.navigate('FormUsername')
+                                        }
+                                    >
+                                        <Text>Start</Text>
+                                    </IntroButton>
+                                ) : (
+                                    <IntroButton
+                                        onPress={() => goToSlide(index + 1)}
+                                    >
+                                        <Text>Continue</Text>
+                                    </IntroButton>
+                                )}
+                            </View>
+                        </Pressable>
                     </View>
                 )}
             />
@@ -119,7 +137,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        maxHeight: '8%',
+        minWidth: '90%',
         position: 'absolute',
-        bottom: '15%',
+        bottom: '8%',
     },
 });
