@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, Dimensions } from 'react-native';
 import { useState } from 'react';
 import IntroButton from '../components/UI/IntroButton';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,9 @@ const FormAge = (props: { route: any }) => {
     type homeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Root'>;
     const navigation = useNavigation<homeScreenProp>();
 
+    const width = Dimensions.get('screen').width;
+    const height = Dimensions.get('screen').height;
+
     return (
         <View style={styles.content}>
             <View style={styles.logoView}>
@@ -18,24 +21,12 @@ const FormAge = (props: { route: any }) => {
             </View>
             <Text
                 style={styles.subtitle}
-            >{`Hi ${props.route.params.username}, do you confirm that you are older than 18 years old?`}</Text>
+            >{`Hi there! Are older than 18?`}</Text>
             <Text style={styles.commentary}>
                 (We need to make sure you are old enough to use Kunu)
             </Text>
             <View style={styles.buttonsContainer}>
                 <IntroButton
-                    style={{ flex: 1, position: 'absolute', bottom: 100, }}
-                    onPress={() =>
-                        navigation.navigate('FormNumber', {
-                            username: props.route.params.username,
-                        })
-                    }
-                >
-                    <Text>Yes</Text>
-                </IntroButton>
-                <View style={{margin: '15%'}}></View>
-                <IntroButton
-                    style={{ flex: 1, position: 'absolute', bottom: 100 }}
                     onPress={() =>
                         Alert.alert(
                             'You need to be older than 18 to use Kunu App',
@@ -43,6 +34,14 @@ const FormAge = (props: { route: any }) => {
                     }
                 >
                     <Text>No</Text>
+                </IntroButton>
+                <View style={{margin: '15%'}}></View>
+                <IntroButton
+                    onPress={() =>
+                        navigation.navigate('FormNumber')
+                    }
+                >
+                    <Text>Yes</Text>
                 </IntroButton>
             </View>
         </View>
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
         maxHeight: '8%',
         maxWidth: '40%',
         position: 'absolute',
-        bottom: '8%',
+        bottom: '15%',
     },
     subtitle: {
         color: 'black',

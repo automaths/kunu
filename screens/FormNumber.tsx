@@ -1,10 +1,4 @@
-import {
-    View,
-    Text,
-    StyleSheet,
-    TextInput,
-    Alert,
-} from 'react-native';
+import { View, Text, StyleSheet, TextInput, Alert } from 'react-native';
 import { useState } from 'react';
 import IntroButton from '../components/UI/IntroButton';
 import { useNavigation } from '@react-navigation/native';
@@ -12,25 +6,6 @@ import { GlobalStyles } from '../constants/Styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation';
 import { Auth } from 'aws-amplify';
-
-// try {
-//     const { user } = await Auth.signUp({ username, password });
-//     console.log(user);
-// } catch (error) {
-//     console.log('error signing up:', error);
-// }
-
-// try {
-//     const user = await Auth.signIn(username, password);
-// } catch (error) {
-//     console.log('error signing in', error);
-// }
-
-// try {
-//     await Auth.signOut();
-// } catch (error) {
-//     console.log('error signing out: ', error);
-// }
 
 const FormNumber = (props: { route: any }) => {
     const [number, setNumber] = useState('');
@@ -42,46 +17,102 @@ const FormNumber = (props: { route: any }) => {
             <View style={styles.logoView}>
                 <Text style={styles.logoText}>Kunu</Text>
             </View>
-            <View style={{flex:1}}>
-                <Text
-                    style={styles.subtitle}
-                >
-                    Enter your email
-                </Text>
-                <View style={{alignItems: 'center',}}>
+            <View style={{ flex: 1 }}>
+                <Text style={styles.subtitle}>Enter your phone number</Text>
+                <View style={{ alignItems: 'center' }}>
                     <TextInput
-                style={styles.input}
-                placeholder={'Enter email'}
-                value={number}
-                onChangeText={setNumber}
-                autoFocus={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType={'phone-pad'}
+                        style={styles.input}
+                        placeholder={''}
+                        value={number}
+                        onChangeText={setNumber}
+                        autoFocus={true}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        keyboardType={'phone-pad'}
                     />
                 </View>
-            </View>
-            <View style={styles.buttonsContainer}>
-                <IntroButton
-                    style={{ position: 'absolute', bottom: 100 }}
-                    onPress={async () => {
-                        try {
-                            const { user } = await Auth.signUp(number, 'password');
-                            console.log('user created ');
-                            console.log(user);
-                            navigation.navigate('FormConfirm', {
-                                username: props.route.params.username,
-                                number: number,
-                            });
-                            navigation.navigate('FormConfirm', { number: number, username: props.route.params.username})
-                        } catch (err) {
-                            console.error(err);
-                            console.log('an error occured while creating a user');
-                        }
-                    }}
-                >
-                    <Text>Continue</Text>
-                </IntroButton>
+                <View style={styles.buttonsContainer}>
+                    <IntroButton
+                        onPress={() => {
+                            const code = '000000';
+                            let existingUser = true;
+                            Auth.confirmSignUp(number, code, {
+                                forceAliasCreation: false,
+                            })
+                                .then((data) => console.log(data))
+                                .catch((err) => {
+                                    console.log(err);
+                                    if (err.code === 'UserNotFoundException') {
+                                        Auth.signUp(number, 'password')
+                                            .then((result) => {
+                                                console.log('user created ');
+                                                console.log(result);
+                                                navigation.navigate(
+                                                    'FormConfirm',
+                                                    {
+                                                        number: number,
+                                                        exist: false,
+                                                    },
+                                                );
+                                            })
+                                            .catch((err) => {
+                                                console.log(
+                                                    'an error occured during the sign up',
+                                                );
+                                            });
+                                    } else if (
+                                        err.code === 'AliasExistsException' ||
+                                        err.code === 'CodeMismatchException' ||
+                                        err.code === 'NotAuthorizedException'
+                                    ) {
+                                        Auth.signIn(number, 'password').then(
+                                            (result) => {
+                                                console.log(
+                                                    'the user exists and has been signed in',
+                                                );
+                                                console.log(result);
+                                            },
+                                        );
+                                        console.log('coucou');
+                                        Auth.verifyCurrentUserAttribute(number)
+                                            .then(() => {
+                                                console.log(
+                                                    'a verification code is sent',
+                                                );
+                                                navigation.navigate(
+                                                    'FormConfirm',
+                                                    {
+                                                        number: number,
+                                                        exist: true,
+                                                    },
+                                                );
+                                            })
+                                            .catch((e) => {
+                                                Auth.signOut();
+                                                console.log(
+                                                    'failed with error',
+                                                    e,
+                                                );
+                                            });
+                                    } else if (
+                                        err.code === 'LimitExceededException'
+                                    ) {
+                                        console.log(
+                                            'User exist check threw LimitExceededException',
+                                        );
+                                    }
+                                    // case 'UserNotFoundException':
+                                    // case 'NotAuthorizedException':
+                                    // case 'AliasExistsException':
+                                    // case 'CodeMismatchException':
+                                    // case 'ExpiredCodeException':
+                                    // case 'LimitExceededException':
+                                });
+                        }}
+                    >
+                        <Text>Continue</Text>
+                    </IntroButton>
+                </View>
             </View>
         </View>
     );
@@ -109,8 +140,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         maxHeight: '8%',
         minWidth: '90%',
-        position: 'absolute',
-        bottom: '8%',
+        marginTop: '70%',
     },
     input: {
         marginTop: '3%',

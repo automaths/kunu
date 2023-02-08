@@ -63,7 +63,6 @@ const Introduction = () => {
                         <Pressable
                             onPress={() => goToSlide(index + 1)}
                             style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
-                            // style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
                         >
                             <Image
                                 source={item.image}
@@ -75,7 +74,7 @@ const Introduction = () => {
                                 {index === 2 ? (
                                     <IntroButton
                                         onPress={() =>
-                                            navigation.navigate('FormUsername')
+                                            navigation.navigate('FormAge')
                                         }
                                     >
                                         <Text>Start</Text>

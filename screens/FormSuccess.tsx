@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { GlobalStyles } from '../constants/Styles';
 import { useNavigation } from '@react-navigation/native';
 import IntroButton from '../components/UI/IntroButton';
+import { Auth } from 'aws-amplify';
 
 const FormSuccess = () => {
 
@@ -24,7 +25,7 @@ const FormSuccess = () => {
                 <IntroButton
                     mode="flat"
                     style={styles.button}
-                    onPress={() =>
+                    onPress={() => 
                         navigation.navigate('Root', { coucou: 'coucou' })
                     }
                 >

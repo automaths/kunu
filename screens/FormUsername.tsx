@@ -1,8 +1,6 @@
 import {
     View,
-    Pressable,
     Text,
-    Image,
     StyleSheet,
     TextInput,
 } from 'react-native';
@@ -23,13 +21,9 @@ const FormUsername = () => {
             <View style={styles.logoView}>
                 <Text style={styles.logoText}>Kunu</Text>
             </View>
-            <View style={{flex:1}}>
-                <Text
-                    style={styles.subtitle}
-                >
-                    Let's go, what's your name?
-                </Text>
-                <View style={{alignItems: 'center',}}>
+            <View style={{ flex: 1 }}>
+                <Text style={styles.subtitle}>Let's go, what's your name?</Text>
+                <View style={{ alignItems: 'center' }}>
                     <TextInput
                         style={styles.input}
                         placeholder={'Your name'}
@@ -38,16 +32,17 @@ const FormUsername = () => {
                         autoFocus={true}
                     />
                 </View>
-            </View>
-            <View style={styles.buttonsContainer}>
-                <IntroButton
-                    style={{ position: 'absolute', bottom: 100 }}
-                    onPress={() =>
-                        navigation.navigate('FormAge', { username: username })
-                    }
-                >
-                    <Text>Continue</Text>
-                </IntroButton>
+                <View style={styles.buttonsContainer}>
+                    <IntroButton
+                        onPress={() =>
+                            navigation.navigate('FormAge', {
+                                username: username,
+                            })
+                        }
+                    >
+                        <Text>Continue</Text>
+                    </IntroButton>
+                </View>
             </View>
         </View>
     );
@@ -81,11 +76,10 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         flex: 1,
         alignItems: 'center',
+        marginTop: '60%',
         justifyContent: 'center',
         maxHeight: '8%',
         minWidth: '90%',
-        position: 'absolute',
-        bottom: '8%',
     },
     subtitle: {
         color: 'black',

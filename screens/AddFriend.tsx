@@ -56,13 +56,19 @@ const AddFriends = () => {
                 setUser(test);
                 console.log('el testoune is');
                 console.log(test);
-                if (test.attributes === undefined) {
+                if (test === null)
+                {
                     console.log('the user is not authenticated');
                     navigation.navigate('Introduction', { coucou: 'coucou' });
                     return false;
                 }
+                // if (test.attributes === undefined) {
+                    // console.log('the user is not authenticated');
+                    // navigation.navigate('Introduction', { coucou: 'coucou' });
+                    // return false;
+                // }
                 const searchMember = await DataStore.query(Members, (member) =>
-                    member.email.contains(test.attributes.email),
+                    member.email.contains(test.attributes.phone_number),
                 );
                 if (searchMember.length === 0) {
                     console.log(
@@ -70,12 +76,12 @@ const AddFriends = () => {
                     );
                     await DataStore.save(
                         new Members({
-                            id: test.id,
-                            email: test.attributes.email,
-                            family_name: test.attributes.family_name,
-                            given_name: test.attributes.given_name,
-                            sub: test.attributes.sub,
-                            username: test.username,
+                            id: test.attributes.phone_number,
+                            email: test.attributes.phone_number,
+                            family_name: test.attributes.phone_number,
+                            given_name: test.attributes.phone_number,
+                            sub: test.userSub,
+                            username: test.attributes.phone_number,
                         }),
                     );
                 }
@@ -83,7 +89,6 @@ const AddFriends = () => {
                 return true;
             } catch {
                 console.log('exception caught during ionViewCanEnter');
-                navigation.navigate('Introduction', { coucou: 'coucou' });
                 return false;
             }
         }
