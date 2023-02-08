@@ -57,6 +57,7 @@ const FormNumber = (props: { route: any }) => {
                 autoFocus={true}
                 autoCapitalize="none"
                 autoCorrect={false}
+                keyboardType={'phone-pad'}
                     />
                 </View>
             </View>
