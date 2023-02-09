@@ -8,7 +8,6 @@ import {
     Image,
 } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import { DEMANDS, REQUESTS } from '../data/dummy-data';
 import { GlobalStyles } from '../constants/Styles';
 import RenderRequestsSent from '../components/RenderRequestsSent';
 import RenderPendingInvitations from '../components/RenderPendingInvitations';
@@ -51,7 +50,20 @@ const AddFriends = () => {
     useEffect(() => {
         async function ionViewCanEnter() {
             try {
-                const test = await Auth.currentUserInfo();
+                const test = await Auth.currentUserInfo().then((result) => {
+                    console.log('length result');
+                    console.log(Object.keys(result).length);
+                    if (Object.keys(result).length === 0)
+                    {
+                        navigation.navigate('Introduction', { coucou: 'coucou' });                        
+                    }
+                    console.log(result);
+                    console.log('fetching the current user');
+                }).catch((err) => {
+                    console.log(err);
+                    console.log('an exception has been thrown during currentuserinfo');
+                    navigation.navigate('Introduction', { coucou: 'coucou' });
+                });
                 console.log('setting up the user');
                 setUser(test);
                 console.log('el testoune is');
@@ -92,35 +104,35 @@ const AddFriends = () => {
                 return false;
             }
         }
-        ionViewCanEnter().then((result) => {
-            console.log('the user check has been done');
-        });
-        DataStore.query(Members).then((result) => {
-            console.log('the list of all kunuers is: ');
-            console.log(result);
-            setKunuers(result);
-        });
-        Auth.currentUserInfo().then((result) => {
-            console.log(
-                `the sub searched in contain is ${result.attributes.sub}`,
-            );
-            console.log(result.attributes.sub);
+        // ionViewCanEnter().then((result) => {
+        //     console.log('the user check has been done');
+        // });
+        // DataStore.query(Members).then((result) => {
+        //     console.log('the list of all kunuers is: ');
+        //     console.log(result);
+        //     setKunuers(result);
+        // });
+        // Auth.currentUserInfo().then((result) => {
+        //     console.log(
+        //         `the sub searched in contain is ${result.attributes.sub}`,
+        //     );
+        //     console.log(result.attributes.sub);
 
-            DataStore.query(Invitation, (invit) =>
-                invit.invited.contains(result.attributes.sub),
-            ).then((result) => {
-                console.log('the demands fetched are: ');
-                console.log(result);
-                setDemands(result);
-            });
-            DataStore.query(Invitation, (invit) =>
-                invit.inviter.contains(result.attributes.sub),
-            ).then((result) => {
-                console.log('the requests fetched are: ');
-                console.log(result);
-                setRequests(result);
-            });
-        });
+        //     DataStore.query(Invitation, (invit) =>
+        //         invit.invited.contains(result.attributes.sub),
+        //     ).then((result) => {
+        //         console.log('the demands fetched are: ');
+        //         console.log(result);
+        //         setDemands(result);
+        //     });
+        //     DataStore.query(Invitation, (invit) =>
+        //         invit.inviter.contains(result.attributes.sub),
+        //     ).then((result) => {
+        //         console.log('the requests fetched are: ');
+        //         console.log(result);
+        //         setRequests(result);
+        //     });
+        // });
     }, [false]);
 
     return (

@@ -8,14 +8,16 @@ import {
     Alert,
 } from 'react-native';
 import { useState } from 'react';
-import IntroButton from '../components/UI/IntroButton';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../components/UI/Button';
 import { createUser } from '../util/auth';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation';
 
 const FormPassword = (props: { route: any }) => {
     const [password, setPassword] = useState('');
-    const navigation = useNavigation();
+    type homeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Root'>;
+    const navigation = useNavigation<homeScreenProp>();
 
     const passwordValidation = () => {
         const uppercaseRegExp = /(?=.*?[A-Z])/;
@@ -63,12 +65,8 @@ const FormPassword = (props: { route: any }) => {
                     if (passwordValidation())
                     {
                         try {
-                            const token = await createUser(props.route.params.email, password);
-                            console.log('user created ');
-                            console.log(token);
-                            navigation.navigate('FormConfirm', {
+                            navigation.navigate('FormNumber', {
                                 username: props.route.params.username,
-                                email: props.route.params.email,
                                 password: password,
                             });
                         } catch (err) {

@@ -12,6 +12,11 @@ const FormNumber = (props: { route: any }) => {
     type homeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Root'>;
     const navigation = useNavigation<homeScreenProp>();
 
+    const delay = (ms: any) => new Promise((res) => setTimeout(res, ms));
+    const wait = async () => {
+        await delay(5000);
+    };
+
     return (
         <View style={styles.content}>
             <View style={styles.logoView}>
@@ -35,7 +40,6 @@ const FormNumber = (props: { route: any }) => {
                     <IntroButton
                         onPress={() => {
                             const code = '000000';
-                            let existingUser = true;
                             Auth.confirmSignUp(number, code, {
                                 forceAliasCreation: false,
                             })
@@ -43,7 +47,11 @@ const FormNumber = (props: { route: any }) => {
                                 .catch((err) => {
                                     console.log(err);
                                     if (err.code === 'UserNotFoundException') {
-                                        Auth.signUp(number, 'password')
+                                        Auth.signUp({username: number, password: props.route.params.password, 
+                                        attributes: {
+                                            nickname: props.route.params.username
+                                        }
+                                    })
                                             .then((result) => {
                                                 console.log('user created ');
                                                 console.log(result);
@@ -51,11 +59,14 @@ const FormNumber = (props: { route: any }) => {
                                                     'FormConfirm',
                                                     {
                                                         number: number,
+                                                        username: props.route.params.username,
+                                                        password: props.route.params.password,
                                                         exist: false,
                                                     },
                                                 );
                                             })
                                             .catch((err) => {
+                                                console.log(err);
                                                 console.log(
                                                     'an error occured during the sign up',
                                                 );
@@ -65,35 +76,40 @@ const FormNumber = (props: { route: any }) => {
                                         err.code === 'CodeMismatchException' ||
                                         err.code === 'NotAuthorizedException'
                                     ) {
-                                        Auth.signIn(number, 'password').then(
-                                            (result) => {
+                                        console.log('starting process with already created phone number');
+                                        Auth.signIn(number, props.route.params.password).then(
+                                            async (result) => {
                                                 console.log(
                                                     'the user exists and has been signed in',
                                                 );
                                                 console.log(result);
-                                            },
-                                        );
-                                        console.log('coucou');
-                                        Auth.verifyCurrentUserAttribute(number)
-                                            .then(() => {
-                                                console.log(
-                                                    'a verification code is sent',
-                                                );
-                                                navigation.navigate(
-                                                    'FormConfirm',
-                                                    {
-                                                        number: number,
-                                                        exist: true,
-                                                    },
-                                                );
-                                            })
-                                            .catch((e) => {
-                                                Auth.signOut();
-                                                console.log(
-                                                    'failed with error',
-                                                    e,
-                                                );
-                                            });
+                                                console.log('coucou');
+                                                await wait();
+                                                Auth.verifyCurrentUserAttribute(number)
+                                                    .then(() => {
+                                                        console.log(
+                                                            'a verification code is sent',
+                                                        );
+                                                        navigation.navigate(
+                                                            'FormConfirm',
+                                                            {
+                                                                number: number,
+                                                                exist: true,
+                                                            },
+                                                        );
+                                                    })
+                                                    .catch((e) => {
+                                                        Auth.signOut();
+                                                        console.log(
+                                                            'failed with error',
+                                                            e,
+                                                        );
+                                                    });
+                                            }
+                                        ).catch((err) => {
+                                            console.log(err);
+                                            console.log('wrong password at the sign in, please redirect to another window');
+                                        })
                                     } else if (
                                         err.code === 'LimitExceededException'
                                     ) {

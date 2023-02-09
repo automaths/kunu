@@ -38,7 +38,7 @@ const FormAge = (props: { route: any }) => {
                 <View style={{margin: '15%'}}></View>
                 <IntroButton
                     onPress={() =>
-                        navigation.navigate('FormNumber')
+                        navigation.navigate('FormUsername')
                     }
                 >
                     <Text>Yes</Text>

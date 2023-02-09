@@ -78,13 +78,10 @@ const FormConfirm = (props: { route: any }) => {
                 <Button
                     mode="flat"
                     onPress={async () => {
-                        try {
-                            let token;
-                            navigation.navigate('FormSuccess');
                             if (props.route.params.exist) {
-                                Auth.verifyCurrentUserAttributeSubmit(
+                                await Auth.verifyCurrentUserAttributeSubmit(
                                     props.route.params.number,
-                                    'the_verification_code',
+                                    code,
                                 )
                                     .then((result) => {
                                         console.log(
@@ -92,47 +89,43 @@ const FormConfirm = (props: { route: any }) => {
                                         );
                                         console.log(result);
                                         console.log('phone_number verified');
-                                        token = true;
+                                        navigation.navigate('FormSuccess');
                                     })
                                     .catch((e) => {
                                         console.log('failed with error', e);
-                                        token = false;
                                     });
                             } else {
-                                token = await Auth.confirmSignUp(
+                                Auth.confirmSignUp(
                                     props.route.params.number,
                                     code,
                                     { forceAliasCreation: false },
-                                );
+                                ).then(async (result) => {
+                                    await wait();
+                                    const sign = Auth.signIn(
+                                        props.route.params.number,
+                                        props.route.params.password,
+                                    );
+                                    console.log(sign);
+                                    await wait();
+                                    const test = await Auth.currentUserInfo();
+                                    await DataStore.save(
+                                        new Members({
+                                            id: test.attributes.phone_number,
+                                            email: test.attributes.phone_number,
+                                            family_name:
+                                                test.attributes.phone_number,
+                                            given_name:
+                                                test.attributes.phone_number,
+                                            sub: test.userSub,
+                                            username: test.attributes.phone_number,
+                                        }),
+                                    );
+                                    navigation.navigate('FormSuccess');
+                                }).catch((err) => {
+                                    console.log(err);
+                                    console.log('error occured while confirming the account creation');
+                                })
                             }
-                            console.log('confirming');
-                            console.log(token);
-                            if (token) {
-                                await wait();
-                                const sign = Auth.signIn(
-                                    '+33634162976',
-                                    'password',
-                                );
-                                console.log(sign);
-                                await wait();
-                                const test = await Auth.currentUserInfo();
-                                await DataStore.save(
-                                    new Members({
-                                        id: test.attributes.phone_number,
-                                        email: test.attributes.phone_number,
-                                        family_name:
-                                            test.attributes.phone_number,
-                                        given_name:
-                                            test.attributes.phone_number,
-                                        sub: test.userSub,
-                                        username: test.attributes.phone_number,
-                                    }),
-                                );
-                            }
-                        } catch (err) {
-                            console.error(err);
-                            console.log('an error occured while confirming');
-                        }
                     }}
                 >
                     <Text>Continue</Text>

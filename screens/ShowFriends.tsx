@@ -50,37 +50,37 @@ const ShowFriends = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        const test = Auth.currentUserInfo().then((result) => {
-            console.log('setting up the user');
-            setUser(result);
-        })
-        DataStore.query(Members).then((result) => {
-            console.log('the list of all kunuers is: ');
-            console.log(result);
-            setKunuers(result);
-        });
-        Auth.currentUserInfo().then((result) => {
-            console.log(
-                `the sub searched in contain is ${result.attributes.sub}`,
-            );
-            console.log(result.attributes.sub);
-            DataStore.query(Friends, (friend) =>
-                friend.one.contains(result.attributes.sub),
-            ).then((result) => {
-                console.log('the friends fetched are: ');
-                console.log(result);
-                setDemands(result);
-            });
-        });
-        Auth.currentUserInfo().then((result) => {
-            DataStore.query(IncomingPhotos, (photo) =>
-                photo.receiver.contains(result.attributes.sub),
-            ).then((result) => {
-                console.log('the photos fetched are: ');
-                console.log(result);
-                setRequests(result);
-            });
-        });
+        // const test = Auth.currentUserInfo().then((result) => {
+        //     console.log('setting up the user');
+        //     setUser(result);
+        // })
+        // DataStore.query(Members).then((result) => {
+        //     console.log('the list of all kunuers is: ');
+        //     console.log(result);
+        //     setKunuers(result);
+        // });
+        // Auth.currentUserInfo().then((result) => {
+        //     console.log(
+        //         `the sub searched in contain is ${result.attributes.sub}`,
+        //     );
+        //     console.log(result.attributes.sub);
+        //     DataStore.query(Friends, (friend) =>
+        //         friend.one.contains(result.attributes.sub),
+        //     ).then((result) => {
+        //         console.log('the friends fetched are: ');
+        //         console.log(result);
+        //         setDemands(result);
+        //     });
+        // });
+        // Auth.currentUserInfo().then((result) => {
+        //     DataStore.query(IncomingPhotos, (photo) =>
+        //         photo.receiver.contains(result.attributes.sub),
+        //     ).then((result) => {
+        //         console.log('the photos fetched are: ');
+        //         console.log(result);
+        //         setRequests(result);
+        //     });
+        // });
     }, [false]);
 
     return (

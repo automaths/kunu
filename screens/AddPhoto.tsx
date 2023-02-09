@@ -52,10 +52,10 @@ function AddPhoto(props: {route: any}) {
     }
 
     useEffect(() => {
-        const test = Auth.currentUserInfo().then((result) => {
-            console.log('setting up the user');
-            setUser(result);
-        });
+        // const test = Auth.currentUserInfo().then((result) => {
+        //     console.log('setting up the user');
+        //     setUser(result);
+        // });
     }, [false]);
 
     return (

@@ -3,7 +3,7 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "kunu54fe54cb",
+    "resourceNameTruncated": "kunuec3131ab",
     "userPoolName": "Kunu",
     "autoVerifiedAttributes": [
       "phone_number"
@@ -27,9 +27,9 @@
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "Kunu54fe54cb_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "Kunuec3131ab_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "54fe54cb",
+    "sharedId": "ec3131ab",
     "resourceName": "Kunu",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",

@@ -35,7 +35,7 @@ const FormUsername = () => {
                 <View style={styles.buttonsContainer}>
                     <IntroButton
                         onPress={() =>
-                            navigation.navigate('FormAge', {
+                            navigation.navigate('FormPassword', {
                                 username: username,
                             })
                         }

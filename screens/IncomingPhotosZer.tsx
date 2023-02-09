@@ -26,17 +26,17 @@ function IncomingPhotosZer() {
     });
 
     useEffect(() => {
-        const test = Auth.currentUserInfo().then((result:any) => {
-            console.log('setting up the user');
-            console.log(result);
-            setUser(result);
-            DataStore.query(ValidatedPhotos, (photo:any) => photo.receiver.contains(result.attributes.sub))
-                .then((result:any) => {
-                    console.log('fetching the images gives: ');
-                    console.log(result);
-                    setImages(result);
-                })
-        });
+        // const test = Auth.currentUserInfo().then((result:any) => {
+        //     console.log('setting up the user');
+        //     console.log(result);
+        //     setUser(result);
+        //     DataStore.query(ValidatedPhotos, (photo:any) => photo.receiver.contains(result.attributes.sub))
+        //         .then((result:any) => {
+        //             console.log('fetching the images gives: ');
+        //             console.log(result);
+        //             setImages(result);
+        //         })
+        // });
     }, [false]);
 
     return (
